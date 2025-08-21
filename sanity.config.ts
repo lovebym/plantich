@@ -8,7 +8,7 @@ import condition from './schemaTypes/condition'
 export default defineConfig({
   name: 'default',
   title: 'plantich',
-  projectId: 'dinProjectId',
+  projectId: 'b9a148km',
   dataset: 'production',
   plugins: [deskTool(), visionTool()],
   schema: {

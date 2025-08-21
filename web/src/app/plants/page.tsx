@@ -1,35 +1,179 @@
 import Link from 'next/link'
+import { allPlants, getPlantsByCategory } from '@/content'
 
-export default async function PlantsPage() {
+export default function PlantsPage() {
+  const mindPlants = getPlantsByCategory('Mind')
+  const bodyPlants = getPlantsByCategory('Body')
+  const spiritPlants = getPlantsByCategory('Spirit')
+
   return (
-    <div className="bg-[color:var(--pl-bone)] min-h-screen">
-      <div className="bg-gradient-to-r from-[color:var(--pl-cream)] to-[color:var(--pl-bone)] py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-display text-4xl text-[color:var(--pl-charcoal)] mb-4">Healing Plants</h1>
-          <p className="text-xl text-[color:var(--pl-olive)] max-w-3xl">
-            Discover the incredible healing properties of plants and natural remedies. 
-            Each plant has unique benefits for your health and wellness.
+    <div className="bg-background min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-sand py-16 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="font-serif text-4xl text-ink mb-4">Sacred Plant Allies</h1>
+          <p className="text-lg text-herbal font-sans leading-relaxed max-w-2xl mx-auto">
+            Discover the healing wisdom of plants, organized by their primary energetic support for mind, body, and spirit.
           </p>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center py-12">
-          <div className="text-6xl mb-4">🌱</div>
-          <h2 className="text-2xl font-semibold text-[color:var(--pl-charcoal)] mb-2">No plants found</h2>
-          <p className="text-[color:var(--pl-olive)]">
-            Plants will appear here once they&apos;re added to your Sanity CMS.
-          </p>
-          <div className="mt-4">
-            <Link 
-              href="/"
-              className="text-[color:var(--pl-forest)] hover:text-[color:var(--pl-charcoal)] font-medium"
-            >
-              ← Back to Home
-            </Link>
+      {/* Mind Plants */}
+      {mindPlants.length > 0 && (
+        <section className="py-16 px-6 bg-background">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="font-serif text-3xl text-ink mb-8 text-center">Mind</h2>
+            <p className="text-center text-herbal font-sans mb-12 max-w-2xl mx-auto">
+              Plants that support mental clarity, emotional balance, and cognitive function.
+            </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {mindPlants.map((plant) => (
+                <Link
+                  key={plant.slug}
+                  href={`/plant/${plant.slug}`}
+                  className="apothecary-card p-6 hover:shadow-soft transition-shadow"
+                >
+                  <h3 className="font-serif text-xl text-ink mb-2">{plant.name}</h3>
+                  <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                  <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
+                    {plant.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {plant.uses.slice(0, 3).map((use, index) => (
+                      <span 
+                        key={index} 
+                        className="text-xs px-2 py-1 bg-sand text-ink rounded-full"
+                      >
+                        {use}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="text-herbal text-sm font-sans">
+                    Learn more →
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
+      )}
+
+      {/* Body Plants */}
+      {bodyPlants.length > 0 && (
+        <section className="py-16 px-6 bg-clay">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="font-serif text-3xl text-ink mb-8 text-center">Body</h2>
+            <p className="text-center text-herbal font-sans mb-12 max-w-2xl mx-auto">
+              Plants that strengthen physical resilience, support vital systems, and restore energy.
+            </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {bodyPlants.map((plant) => (
+                <Link
+                  key={plant.slug}
+                  href={`/plant/${plant.slug}`}
+                  className="apothecary-card p-6 hover:shadow-soft transition-shadow"
+                >
+                  <h3 className="font-serif text-xl text-ink mb-2">{plant.name}</h3>
+                  <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                  <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
+                    {plant.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {plant.uses.slice(0, 3).map((use, index) => (
+                      <span 
+                        key={index} 
+                        className="text-xs px-2 py-1 bg-sand text-ink rounded-full"
+                      >
+                        {use}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="text-herbal text-sm font-sans">
+                    Learn more →
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Spirit Plants */}
+      {spiritPlants.length > 0 && (
+        <section className="py-16 px-6 bg-background">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="font-serif text-3xl text-ink mb-8 text-center">Spirit</h2>
+            <p className="text-center text-herbal font-sans mb-12 max-w-2xl mx-auto">
+              Plants that nurture inner peace, deepen intuition, and support spiritual well-being.
+            </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {spiritPlants.map((plant) => (
+                <Link
+                  key={plant.slug}
+                  href={`/plant/${plant.slug}`}
+                  className="apothecary-card p-6 hover:shadow-soft transition-shadow"
+                >
+                  <h3 className="font-serif text-xl text-ink mb-2">{plant.name}</h3>
+                  <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                  <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
+                    {plant.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {plant.uses.slice(0, 3).map((use, index) => (
+                      <span 
+                        key={index} 
+                        className="text-xs px-2 py-1 bg-sand text-ink rounded-full"
+                      >
+                        {use}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="text-herbal text-sm font-sans">
+                    Learn more →
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* All Plants Section (if no categories) */}
+      {mindPlants.length === 0 && bodyPlants.length === 0 && spiritPlants.length === 0 && (
+        <section className="py-16 px-6 bg-background">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="font-serif text-3xl text-ink mb-8 text-center">All Plants</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {allPlants.map((plant) => (
+                <Link
+                  key={plant.slug}
+                  href={`/plant/${plant.slug}`}
+                  className="apothecary-card p-6 hover:shadow-soft transition-shadow"
+                >
+                  <h3 className="font-serif text-xl text-ink mb-2">{plant.name}</h3>
+                  <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                  <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
+                    {plant.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {plant.uses.slice(0, 3).map((use, index) => (
+                      <span 
+                        key={index} 
+                        className="text-xs px-2 py-1 bg-sand text-ink rounded-full"
+                      >
+                        {use}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="text-herbal text-sm font-sans">
+                    Learn more →
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

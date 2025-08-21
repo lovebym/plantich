@@ -19,6 +19,12 @@ export default function Header() {
               Home
             </Link>
             <Link
+              href="/search"
+              className="text-ink hover:text-herbal px-3 py-2 text-sm tracking-wider uppercase transition-colors font-sans"
+            >
+              Search
+            </Link>
+            <Link
               href="/plants"
               className="text-ink hover:text-herbal px-3 py-2 text-sm tracking-wider uppercase transition-colors font-sans"
             >
@@ -29,6 +35,18 @@ export default function Header() {
               className="text-ink hover:text-herbal px-3 py-2 text-sm tracking-wider uppercase transition-colors font-sans"
             >
               Conditions
+            </Link>
+            <Link
+              href="/about"
+              className="text-ink hover:text-herbal px-3 py-2 text-sm tracking-wider uppercase transition-colors font-sans"
+            >
+              About
+            </Link>
+            <Link
+              href="/contact"
+              className="text-ink hover:text-herbal px-3 py-2 text-sm tracking-wider uppercase transition-colors font-sans"
+            >
+              Contact
             </Link>
           </nav>
 

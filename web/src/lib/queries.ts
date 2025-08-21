@@ -1,55 +1,123 @@
 export const plantQueries = {
-  all: `*[_type == "plant"] {
+  // Get all plants
+  getAll: `*[_type == "plant"] | order(name asc) {
     _id,
     name,
     latinName,
+    slug,
     description,
-    swedishDescription,
+    "imageUrl": image.asset->url,
+    category,
     uses,
-    swedishUses,
-    conditions[]->{
-      _id,
-      name,
-      description,
-      swedishDescription
-    },
-    affiliateLink,
-    slug
+    "conditionCount": count(conditions)
   }`,
-  
-  bySlug: `*[_type == "plant" && slug.current == $slug][0] {
+
+  // Get single plant by slug
+  getBySlug: `*[_type == "plant" && slug.current == $slug][0] {
     _id,
     name,
     latinName,
+    slug,
     description,
-    swedishDescription,
+    "imageUrl": image.asset->url,
+    category,
     uses,
-    swedishUses,
-    conditions[]->{
+    researchLinks,
+    affiliateLink,
+    conditions[]-> {
       _id,
       name,
-      description,
-      swedishDescription
-    },
-    affiliateLink,
-    slug
+      slug,
+      description
+    }
+  }`,
+
+  // Search plants
+  search: `*[_type == "plant" && (
+    name match $searchTerm + "*" ||
+    latinName match $searchTerm + "*" ||
+    description match "*" + $searchTerm + "*"
+  )] | order(name asc) {
+    _id,
+    name,
+    latinName,
+    slug,
+    description,
+    "imageUrl": image.asset->url,
+    category,
+    uses
+  }`,
+
+  // Get plants by category
+  getByCategory: `*[_type == "plant" && category == $category] | order(name asc) {
+    _id,
+    name,
+    latinName,
+    slug,
+    description,
+    "imageUrl": image.asset->url,
+    category,
+    uses
   }`
 }
 
 export const conditionQueries = {
-  all: `*[_type == "condition"] {
+  // Get all conditions
+  getAll: `*[_type == "condition"] | order(name asc) {
     _id,
     name,
+    slug,
     description,
-    swedishDescription,
-    slug
+    category,
+    "plantCount": count(relatedPlants)
   }`,
-  
-  bySlug: `*[_type == "condition" && slug.current == $slug][0] {
+
+  // Get single condition by slug
+  getBySlug: `*[_type == "condition" && slug.current == $slug][0] {
     _id,
     name,
+    slug,
     description,
-    swedishDescription,
-    slug
+    category,
+    relatedPlants[]-> {
+      _id,
+      name,
+      latinName,
+      slug,
+      description,
+      "imageUrl": image.asset->url,
+      uses
+    }
+  }`,
+
+  // Search conditions
+  search: `*[_type == "condition" && (
+    name match $searchTerm + "*" ||
+    description match "*" + $searchTerm + "*"
+  )] | order(name asc) {
+    _id,
+    name,
+    slug,
+    description,
+    category,
+    "plantCount": count(relatedPlants)
+  }`,
+
+  // Get conditions by category
+  getByCategory: `*[_type == "condition" && category == $category] | order(name asc) {
+    _id,
+    name,
+    slug,
+    description,
+    category,
+    "plantCount": count(relatedPlants)
   }`
 }
+
+// Combined search for both plants and conditions
+export const searchQuery = `
+  {
+    "plants": ${plantQueries.search},
+    "conditions": ${conditionQueries.search}
+  }
+`
