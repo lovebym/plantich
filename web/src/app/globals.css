@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  /* Nordic Luxury Herbal Apothecary Palette */
+  --pl-bone: #f8f6f1;          /* off-white / bone */
+  --pl-charcoal: #1a1a1a;      /* deep black for contrast */
+  --pl-forest: #2d4a3e;        /* deep forest green */
+  --pl-olive: #5a6b4a;         /* olive green */
+  --pl-rosemary: #7a8b6a;      /* rosemary green */
+  --pl-bark: #4a3c2d;          /* bark brown */
+  --pl-gold: #d4af37;          /* muted antique gold */
+  --pl-cream: #f5f1e8;         /* warm cream */
+  --pl-stone: #e8e4d8;         /* stone gray */
+
+  --background: var(--pl-bone);
+  --foreground: var(--pl-charcoal);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+
+/* Minimal helpers using standard CSS (no @apply) */
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+/**********************
+ Tailwind arbitrary colors
+ Use like: text-[color:var(--pl-charcoal)] or bg-[color:var(--pl-bone)]
+**********************/
+/* Example component shells */
+.apothecary-card {
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--pl-stone) 50%, transparent);
+  background: color-mix(in oklab, white 70%, transparent);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
