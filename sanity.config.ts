@@ -1,18 +1,18 @@
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import {schemaTypes} from './schemaTypes'
+import { defineConfig } from 'sanity'
+import { visionTool } from '@sanity/vision'
+import { deskTool } from 'sanity/desk'
+
+import plant from './schemaTypes/plant'
+import condition from './schemaTypes/condition'
 
 export default defineConfig({
   name: 'default',
   title: 'plantich',
-
-  projectId: 'b9a148km',
+  projectId: 'dinProjectId',
   dataset: 'production',
-
-  plugins: [structureTool(), visionTool()],
-
+  plugins: [deskTool(), visionTool()],
   schema: {
-    types: schemaTypes,
+    types: [plant, condition],
   },
 })
+
