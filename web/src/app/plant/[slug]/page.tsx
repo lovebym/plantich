@@ -18,11 +18,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${plant.name} (${plant.latin})`,
+    title: `${plant.title} (${plant.latinName})`,
     description: plant.description,
     keywords: [
-      plant.name,
-      plant.latin,
+      plant.title,
+      plant.latinName,
       'medicinal plant',
       'herbal remedy',
       'natural medicine',
