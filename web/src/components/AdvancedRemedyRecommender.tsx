@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { allRemedies, allPlants } from '@/content'
-import { Plant } from '@/content/types'
+import { allRemedies, allPlants, Plant } from '@/lib/content-loader'
 
 interface Symptom {
   id: string
@@ -422,7 +421,7 @@ export default function AdvancedRemedyRecommender() {
           name: plant.title,
           slug: plant.slug,
           description: plant.description,
-          preparation: plant.dosage,
+          preparation: plant.dosage || 'Not specified',
           category: plant.category || 'Body'
         },
         dosage: adjustedDosage,
@@ -685,7 +684,7 @@ export default function AdvancedRemedyRecommender() {
               <div key={index} className="bg-sand/30 rounded-lg border border-clay/20 p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h4 className="text-xl font-serif text-ink mb-2">{rec.plant.title}</h4>
+                    <h4 className="text-xl font-serif text-ink mb-2">{rec.plant.name}</h4>
                     <p className="text-ink/70 mb-3">{rec.plant.description}</p>
                   </div>
                   <div className="flex gap-2">

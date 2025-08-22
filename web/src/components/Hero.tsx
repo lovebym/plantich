@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { allPlants, allRemedies } from '@/content'
+import { allPlants, allRemedies } from '@/lib/content-loader'
 
 interface SearchResult {
   type: 'plant' | 'remedy'

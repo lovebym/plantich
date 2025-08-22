@@ -10,37 +10,24 @@ export function composeResponse(data: {
 }): AIResponse {
   const { q, tokens, topRemedies, topPlants, maxItems = 8 } = data;
 
-  // Plant snippets
-  const plantSnippets: AISnippet[] = topPlants.slice(0, 4).map(p => {
-    const sources: AISource[] = (p.plant.references || []).slice(0,4);
-    
-    return {
-      type: "plant" as const,
-      title: p.plant.title,
-      description: p.plant.description,
-      howToUse: [p.plant.dosage || 'Not specified'],
-      sources,
-      score: p.score,
-      why: p.why
-    };
-  });
+            // Plant snippets
+          const plantSnippets: AISnippet[] = topPlants.slice(0, 4).map(p => {
+            return {
+              title: p.title,
+              text: `${p.deck || 'Plant information'}. ${p.howToUse?.join(', ') || 'Use as directed'}.`
+            };
+          });
 
-  // Remedy snippets  
-  const remedySnippets: AISnippet[] = topRemedies.slice(0, 4).map(r => {
-    return {
-      type: "remedy" as const,
-      title: r.remedy.title,
-      description: r.remedy.description,
-      howToUse: [r.remedy.approach || 'Not specified'],
-      sources: [],
-      score: r.score,
-      why: r.why
-    };
-  });
+          // Remedy snippets  
+          const remedySnippets: AISnippet[] = topRemedies.slice(0, 4).map(r => {
+            return {
+              title: r.title,
+              text: `${r.deck || 'Remedy information'}. ${r.howToUse?.join(', ') || 'Traditional herbal approach'}.`
+            };
+          });
 
-  // Combine and sort by score
+  // Combine snippets
   const allSnippets = [...plantSnippets, ...remedySnippets]
-    .sort((a, b) => b.score - a.score)
     .slice(0, maxItems);
 
   // Generate summary
@@ -48,16 +35,15 @@ export function composeResponse(data: {
   const leadPlant = topPlants[0];
   
   const summary = leadRemedy && leadPlant
-    ? `For ${leadRemedy.remedy.title.toLowerCase()}, common options include ${leadRemedy.remedy.plants.slice(0,2).join(" & ")}. Start low, track response for 1–2 weeks, and avoid stacking multiple sedatives. See cautions and sources below.`
+    ? `For ${leadRemedy.title.toLowerCase()}, consider herbal options. Start low, track response for 1–2 weeks, and avoid stacking multiple sedatives. See cautions and sources below.`
     : leadPlant
-      ? `${leadPlant.plant.title} is often used for ${leadPlant.plant.uses.slice(0,2).join(" & ")}. Typical preparation: ${leadPlant.plant.dosage || 'Not specified'}. Review cautions and interactions before use.`
+      ? `${leadPlant.title} is often used for various conditions. Review cautions and interactions before use.`
       : "No specific recommendations found. Please consult with a healthcare provider.";
 
   return {
-    query: q,
-    summary,
-    snippets: allSnippets,
-    totalResults: allSnippets.length,
-    searchTerms: tokens
+    tldr: allSnippets[0] || { title: 'No results', text: 'No specific recommendations found.' },
+    hits: [...topPlants, ...topRemedies].slice(0, maxItems),
+    safety: 'Always consult with a healthcare provider before starting any herbal regimen.',
+    queryEcho: q
   };
 }

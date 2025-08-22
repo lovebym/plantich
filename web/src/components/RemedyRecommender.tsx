@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { allRemedies, allPlants } from '@/content'
+import { allRemedies, allPlants } from '@/lib/content-loader'
 
 interface Symptom {
   id: string
@@ -249,7 +249,7 @@ export default function RemedyRecommender() {
                 name: plant.title,
                 slug: plant.slug,
                 description: plant.description,
-                preparation: plant.dosage
+                preparation: plant.dosage || 'Not specified'
               },
               dosage: dosageInfo.dosage,
               frequency: dosageInfo.frequency,
@@ -349,7 +349,7 @@ export default function RemedyRecommender() {
               {recommendations.map((rec, index) => (
                 <div key={index} className="apothecary-card p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <h4 className="font-serif text-xl text-ink">{rec.plant.title}</h4>
+                    <h4 className="font-serif text-xl text-ink">{rec.plant.name}</h4>
                     <span className={`text-xs px-2 py-1 rounded-full border ${getPriorityColor(rec.priority)}`}>
                       {getPriorityLabel(rec.priority)}
                     </span>
@@ -379,7 +379,7 @@ export default function RemedyRecommender() {
                   
                   <div className="mt-4 p-3 bg-clay/20 rounded-lg">
                     <p className="text-xs text-ink font-medium mb-1">Preparation:</p>
-                    <p className="text-xs text-herbal">{rec.plant.dosage}</p>
+                    <p className="text-xs text-herbal">{rec.plant.preparation}</p>
                   </div>
                 </div>
               ))}
