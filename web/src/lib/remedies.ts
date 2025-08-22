@@ -38,7 +38,7 @@ Object.entries(modules).forEach(([path, mod]) => {
   const category = parts[parts.length - 1]
   
   if (categorizedRemedies[category as keyof typeof categorizedRemedies]) {
-    const remedy = (mod as any).default
+    const remedy = (mod as unknown).default
     if (remedy) {
       categorizedRemedies[category as keyof typeof categorizedRemedies].push({
         ...remedy,

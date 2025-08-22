@@ -74,7 +74,7 @@ export interface Category {
 const plantModules = import.meta.glob('/src/content/plants/*.ts', { eager: true })
 
 export const allPlants: Plant[] = Object.entries(plantModules).map(([path, module]) => {
-  const plant = (module as any).default
+  const plant = (module as unknown).default
   return {
     ...plant,
     slug: plant.slug || path.split('/').pop()?.replace('.ts', '')
@@ -85,7 +85,7 @@ export const allPlants: Plant[] = Object.entries(plantModules).map(([path, modul
 const remedyModules = import.meta.glob('/src/content/remedies/**/*.ts', { eager: true })
 
 export const allRemedies: Remedy[] = Object.entries(remedyModules).map(([path, module]) => {
-  const remedy = (module as any).default
+  const remedy = (module as unknown).default
   const category = path.split('/').slice(-2, -1)[0] // Extract category from path
   return {
     ...remedy,

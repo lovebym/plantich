@@ -11,7 +11,7 @@ export interface SEOData {
   author?: string
 }
 
-export function generatePlantSEO(plant: any): Metadata {
+export function generatePlantSEO(plant: Record<string, unknown>): Metadata {
   const title = `${plant.title} - Uses, Benefits & Safety | Plantich`
   const description = `${plant.title} (${plant.latinName}) - Discover how this powerful herb can help with ${plant.uses.slice(0, 3).join(', ')}. Evidence-based guidance on dosage, safety, and traditional uses.`
   
@@ -55,7 +55,7 @@ export function generatePlantSEO(plant: any): Metadata {
   }
 }
 
-export function generateRemedySEO(remedy: any): Metadata {
+export function generateRemedySEO(remedy: Record<string, unknown>): Metadata {
   const title = `${remedy.title} - Natural Remedies & Herbal Solutions | Plantich`
   const description = `Discover natural remedies for ${remedy.title.toLowerCase()}. Learn about effective herbs like ${remedy.plants.slice(0, 3).join(', ')} and evidence-based approaches to wellness.`
   
@@ -98,7 +98,7 @@ export function generateRemedySEO(remedy: any): Metadata {
   }
 }
 
-export function generateCategorySEO(category: any): Metadata {
+export function generateCategorySEO(category: Record<string, unknown>): Metadata {
   const title = `${category.title} - Herbal Remedies & Natural Solutions | Plantich`
   const description = `Explore natural remedies for ${category.title.toLowerCase()}. Discover effective herbs, traditional wisdom, and evidence-based approaches to ${category.description.toLowerCase()}.`
   
