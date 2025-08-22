@@ -1,12 +1,30 @@
 {
-  "name": "web",
-  "version": "0.1.0",
+  "name": "plantich-web",
+  "version": "1.0.0",
   "private": true,
+  "description": "Plantich - The Sacred Alchemy of Plants. A Nordic luxury herbal apothecary platform.",
+  "keywords": [
+    "herbal medicine",
+    "natural remedies",
+    "medicinal plants",
+    "holistic wellness",
+    "next.js",
+    "typescript",
+    "tailwindcss"
+  ],
+  "author": "Plantich",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .next out",
+    "analyze": "ANALYZE=true npm run build",
+    "export": "next build && next export",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@sanity/client": "^7.9.0",
@@ -25,5 +43,9 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }

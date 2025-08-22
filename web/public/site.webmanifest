@@ -1,0 +1,25 @@
+{
+  "name": "Plantich - The Sacred Alchemy of Plants",
+  "short_name": "Plantich",
+  "description": "A Nordic luxury herbal apothecary platform. Discover the sacred alchemy of plants through curated knowledge and premium botanical wisdom.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fefcf9",
+  "theme_color": "#fefcf9",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["health", "education", "lifestyle"],
+  "lang": "en"
+}
+

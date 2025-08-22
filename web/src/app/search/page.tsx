@@ -3,66 +3,98 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
+import { allPlants, allRemedies, getPlantsByCategory, getRemediesByCategory } from '@/content'
 
 interface Plant {
-  _id: string
   name: string
-  latinName?: string
-  slug: { current: string }
+  latin: string
+  slug: string
   description: string
-  imageUrl?: string
-  category?: string
-  uses?: string[]
+  category?: 'Mind' | 'Body' | 'Spirit'
+  uses: string[]
 }
 
-interface Condition {
-  _id: string
-  name: string
-  slug: { current: string }
+interface Remedy {
+  condition: string
+  slug: string
   description: string
-  category?: string
-  plantCount?: number
+  herbs: string[]
+  category?: 'Mind' | 'Body' | 'Spirit'
 }
 
 function SearchContent() {
   const [searchTerm, setSearchTerm] = useState('')
   const [plants, setPlants] = useState<Plant[]>([])
-  const [conditions, setConditions] = useState<Condition[]>([])
+  const [remedies, setRemedies] = useState<Remedy[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState<string>('all')
+  const [selectedType, setSelectedType] = useState<string>('all')
   const searchParams = useSearchParams()
   const router = useRouter()
 
   // Get initial search term from URL
   useEffect(() => {
     const initialSearch = searchParams.get('q') || ''
+    const category = searchParams.get('category') || 'all'
+    const type = searchParams.get('type') || 'all'
+    
     setSearchTerm(initialSearch)
-    if (initialSearch) {
-      performSearch(initialSearch)
+    setSelectedCategory(category)
+    setSelectedType(type)
+    
+    if (initialSearch || category !== 'all' || type !== 'all') {
+      performSearch(initialSearch, category, type)
     }
   }, [searchParams])
 
   // Debounced search
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (searchTerm.trim()) {
-        performSearch(searchTerm)
-      } else {
-        setPlants([])
-        setConditions([])
-      }
+      performSearch(searchTerm, selectedCategory, selectedType)
     }, 300)
 
     return () => clearTimeout(timer)
-  }, [searchTerm])
+  }, [searchTerm, selectedCategory, selectedType])
 
-  const performSearch = async (term: string) => {
+  const performSearch = (term: string, category: string, type: string) => {
     setIsLoading(true)
+    
     try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(term)}`)
-      const data = await response.json()
-      setPlants(data.plants || [])
-      setConditions(data.conditions || [])
+      let filteredPlants = allPlants
+      let filteredRemedies = allRemedies
+
+      // Filter by category
+      if (category !== 'all') {
+        filteredPlants = getPlantsByCategory(category as 'Mind' | 'Body' | 'Spirit')
+        filteredRemedies = getRemediesByCategory(category as 'Mind' | 'Body' | 'Spirit')
+      }
+
+      // Filter by search term
+      if (term.trim()) {
+        const lowercaseTerm = term.toLowerCase()
+        filteredPlants = filteredPlants.filter(plant => 
+          plant.name.toLowerCase().includes(lowercaseTerm) ||
+          plant.latin.toLowerCase().includes(lowercaseTerm) ||
+          plant.description.toLowerCase().includes(lowercaseTerm) ||
+          plant.uses.some(use => use.toLowerCase().includes(lowercaseTerm))
+        )
+        
+        filteredRemedies = filteredRemedies.filter(remedy => 
+          remedy.condition.toLowerCase().includes(lowercaseTerm) ||
+          remedy.description.toLowerCase().includes(lowercaseTerm) ||
+          remedy.herbs.some(herb => herb.toLowerCase().includes(lowercaseTerm))
+        )
+      }
+
+      // Filter by type
+      if (type === 'plants') {
+        filteredRemedies = []
+      } else if (type === 'remedies') {
+        filteredPlants = []
+      }
+
+      setPlants(filteredPlants)
+      setRemedies(filteredRemedies)
     } catch (error) {
       console.error('Search error:', error)
     } finally {
@@ -73,14 +105,41 @@ function SearchContent() {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setSearchTerm(value)
-    
-    // Update URL
-    if (value.trim()) {
-      router.push(`/search?q=${encodeURIComponent(value)}`)
-    } else {
-      router.push('/search')
-    }
+    updateURL(value, selectedCategory, selectedType)
   }
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category)
+    updateURL(searchTerm, category, selectedType)
+  }
+
+  const handleTypeChange = (type: string) => {
+    setSelectedType(type)
+    updateURL(searchTerm, selectedCategory, type)
+  }
+
+  const updateURL = (term: string, category: string, type: string) => {
+    const params = new URLSearchParams()
+    if (term.trim()) params.set('q', term)
+    if (category !== 'all') params.set('category', category)
+    if (type !== 'all') params.set('type', type)
+    
+    const url = params.toString() ? `/search?${params.toString()}` : '/search'
+    router.push(url)
+  }
+
+  const categories = [
+    { value: 'all', label: 'All Categories' },
+    { value: 'Mind', label: 'Mind' },
+    { value: 'Body', label: 'Body' },
+    { value: 'Spirit', label: 'Spirit' }
+  ]
+
+  const types = [
+    { value: 'all', label: 'All' },
+    { value: 'plants', label: 'Plants' },
+    { value: 'remedies', label: 'Conditions' }
+  ]
 
   return (
     <div className="bg-background min-h-screen">
@@ -90,7 +149,7 @@ function SearchContent() {
           <h1 className="font-serif text-4xl text-ink mb-8 text-center">Search the Apothecary</h1>
           
           {/* Search Input */}
-          <div className="relative max-w-2xl mx-auto">
+          <div className="relative max-w-2xl mx-auto mb-8">
             <input
               type="text"
               value={searchTerm}
@@ -104,13 +163,44 @@ function SearchContent() {
               </div>
             )}
           </div>
+
+          {/* Filters */}
+          <div className="flex flex-wrap gap-4 justify-center">
+            {/* Category Filter */}
+            <div className="flex flex-col">
+              <label className="text-sm font-sans text-ink mb-2">Category</label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => handleCategoryChange(e.target.value)}
+                className="px-4 py-2 border border-clay rounded-lg bg-white text-ink font-sans focus:outline-none focus:ring-2 focus:ring-herbal"
+              >
+                {categories.map(cat => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Type Filter */}
+            <div className="flex flex-col">
+              <label className="text-sm font-sans text-ink mb-2">Type</label>
+              <select
+                value={selectedType}
+                onChange={(e) => handleTypeChange(e.target.value)}
+                className="px-4 py-2 border border-clay rounded-lg bg-white text-ink font-sans focus:outline-none focus:ring-2 focus:ring-herbal"
+              >
+                {types.map(type => (
+                  <option key={type.value} value={type.value}>{type.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Results */}
       <section className="py-12 px-6">
         <div className="max-w-6xl mx-auto">
-          {searchTerm && !isLoading && (
+          {(searchTerm || selectedCategory !== 'all' || selectedType !== 'all') && !isLoading && (
             <>
               {/* Plants Results */}
               {plants.length > 0 && (
@@ -119,64 +209,61 @@ function SearchContent() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {plants.map((plant) => (
                       <Link
-                        key={plant._id}
-                        href={`/plant/${plant.slug.current}`}
-                        className="apothecary-card p-6 hover:shadow-soft transition-shadow"
+                        key={plant.slug}
+                        href={`/plant/${plant.slug}`}
+                        className="apothecary-card p-6 hover:shadow-soft transition-shadow group"
                       >
-                        {plant.imageUrl && (
-                          <div className="relative h-48 mb-4 rounded-lg overflow-hidden bg-clay/20">
-                            <Image
-                              src={plant.imageUrl}
-                              alt={plant.name}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                        )}
-                        <h3 className="font-serif text-xl text-ink mb-2">{plant.name}</h3>
-                        {plant.latinName && (
-                          <p className="text-sm text-herbal italic mb-3">{plant.latinName}</p>
-                        )}
-                        <p className="text-sm text-ink font-sans line-clamp-3">
+                        <h3 className="font-serif text-xl text-ink mb-2 group-hover:text-herbal transition-colors">
+                          {plant.name}
+                        </h3>
+                        <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                        <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                           {plant.description}
                         </p>
-                        {plant.category && (
-                          <span className="inline-block mt-3 px-2 py-1 text-xs bg-herbal/10 text-herbal rounded">
-                            {plant.category}
-                          </span>
-                        )}
+                        <div className="flex flex-wrap gap-2">
+                          {plant.category && (
+                            <span className="inline-block px-2 py-1 text-xs bg-herbal/10 text-herbal rounded">
+                              {plant.category}
+                            </span>
+                          )}
+                          {plant.uses.slice(0, 2).map((use, index) => (
+                            <span key={index} className="inline-block px-2 py-1 text-xs bg-clay/20 text-ink rounded">
+                              {use}
+                            </span>
+                          ))}
+                        </div>
                       </Link>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Conditions Results */}
-              {conditions.length > 0 && (
+              {/* Remedies Results */}
+              {remedies.length > 0 && (
                 <div className="mb-12">
-                  <h2 className="font-serif text-2xl text-ink mb-6">Conditions ({conditions.length})</h2>
+                  <h2 className="font-serif text-2xl text-ink mb-6">Conditions ({remedies.length})</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {conditions.map((condition) => (
+                    {remedies.map((remedy) => (
                       <Link
-                        key={condition._id}
-                        href={`/condition/${condition.slug.current}`}
-                        className="apothecary-card p-6 hover:shadow-soft transition-shadow"
+                        key={remedy.slug}
+                        href={`/condition/${remedy.slug}`}
+                        className="apothecary-card p-6 hover:shadow-soft transition-shadow group"
                       >
-                        <h3 className="font-serif text-xl text-ink mb-3">{condition.name}</h3>
-                        <p className="text-sm text-ink font-sans line-clamp-3 mb-3">
-                          {condition.description}
+                        <h3 className="font-serif text-xl text-ink mb-3 group-hover:text-herbal transition-colors">
+                          {remedy.condition}
+                        </h3>
+                        <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
+                          {remedy.description}
                         </p>
                         <div className="flex justify-between items-center">
-                          {condition.category && (
+                          {remedy.category && (
                             <span className="inline-block px-2 py-1 text-xs bg-herbal/10 text-herbal rounded">
-                              {condition.category}
+                              {remedy.category}
                             </span>
                           )}
-                          {condition.plantCount && (
-                            <span className="text-xs text-herbal">
-                              {condition.plantCount} related plants
-                            </span>
-                          )}
+                          <span className="text-xs text-herbal">
+                            {remedy.herbs.length} related plants
+                          </span>
                         </div>
                       </Link>
                     ))}
@@ -185,12 +272,12 @@ function SearchContent() {
               )}
 
               {/* No Results */}
-              {plants.length === 0 && conditions.length === 0 && (
+              {plants.length === 0 && remedies.length === 0 && (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🌿</div>
                   <h3 className="font-serif text-2xl text-ink mb-2">No results found</h3>
                   <p className="text-herbal font-sans">
-                    Try searching for a different term or browse our categories.
+                    Try adjusting your search terms or filters to discover more remedies.
                   </p>
                 </div>
               )}
@@ -198,13 +285,43 @@ function SearchContent() {
           )}
 
           {/* Initial State */}
-          {!searchTerm && (
+          {!searchTerm && selectedCategory === 'all' && selectedType === 'all' && (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="font-serif text-2xl text-ink mb-2">Start your search</h3>
-              <p className="text-herbal font-sans max-w-md mx-auto">
+              <p className="text-herbal font-sans max-w-md mx-auto mb-8">
                 Search for plants by name or condition, or explore our categories to discover natural remedies.
               </p>
+              
+              {/* Quick Categories */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <Link
+                  href="/search?category=Mind"
+                  className="apothecary-card p-6 text-center hover:shadow-soft transition-shadow group"
+                >
+                  <div className="text-3xl mb-3">🧠</div>
+                  <h4 className="font-serif text-lg text-ink mb-2 group-hover:text-herbal transition-colors">Mind</h4>
+                  <p className="text-sm text-herbal font-sans">Mental clarity, focus, and emotional balance</p>
+                </Link>
+                
+                <Link
+                  href="/search?category=Body"
+                  className="apothecary-card p-6 text-center hover:shadow-soft transition-shadow group"
+                >
+                  <div className="text-3xl mb-3">💪</div>
+                  <h4 className="font-serif text-lg text-ink mb-2 group-hover:text-herbal transition-colors">Body</h4>
+                  <p className="text-sm text-herbal font-sans">Physical health, digestion, and vitality</p>
+                </Link>
+                
+                <Link
+                  href="/search?category=Spirit"
+                  className="apothecary-card p-6 text-center hover:shadow-soft transition-shadow group"
+                >
+                  <div className="text-3xl mb-3">✨</div>
+                  <h4 className="font-serif text-lg text-ink mb-2 group-hover:text-herbal transition-colors">Spirit</h4>
+                  <p className="text-sm text-herbal font-sans">Sleep, intuition, and spiritual wellness</p>
+                </Link>
+              </div>
             </div>
           )}
         </div>

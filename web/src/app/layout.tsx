@@ -17,8 +17,72 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Plantich - The Sacred Alchemy of Plants",
-  description: "A Nordic luxury herbal apothecary platform. Discover the sacred alchemy of plants through curated knowledge and premium botanical wisdom.",
+  title: {
+    default: "Plantich - The Sacred Alchemy of Plants",
+    template: "%s | Plantich"
+  },
+  description: "A Nordic luxury herbal apothecary platform. Discover the sacred alchemy of plants through curated knowledge and premium botanical wisdom. Explore natural remedies, medicinal herbs, and holistic wellness.",
+  keywords: [
+    "herbal medicine",
+    "natural remedies",
+    "medicinal plants",
+    "holistic wellness",
+    "botanical wisdom",
+    "herbal apothecary",
+    "plant medicine",
+    "natural healing",
+    "herbal remedies",
+    "wellness platform"
+  ],
+  authors: [{ name: "Plantich" }],
+  creator: "Plantich",
+  publisher: "Plantich",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://plantich.com'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://plantich.com',
+    title: 'Plantich - The Sacred Alchemy of Plants',
+    description: 'A Nordic luxury herbal apothecary platform. Discover the sacred alchemy of plants through curated knowledge and premium botanical wisdom.',
+    siteName: 'Plantich',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Plantich - The Sacred Alchemy of Plants',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Plantich - The Sacred Alchemy of Plants',
+    description: 'A Nordic luxury herbal apothecary platform. Discover the sacred alchemy of plants through curated knowledge and premium botanical wisdom.',
+    images: ['/og-image.jpg'],
+    creator: '@plantich',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+  },
 };
 
 export default function RootLayout({
@@ -30,6 +94,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#fefcf9" />
       </head>
       <body
         className={`${inter.variable} ${cormorant.variable} antialiased min-h-screen flex flex-col bg-background`}
