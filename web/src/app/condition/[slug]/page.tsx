@@ -34,16 +34,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
       images: [
         {
-          url: `/api/og?title=${encodeURIComponent(`Natural Remedies for ${remedy.condition}`)}&subtitle=${encodeURIComponent('Herbal Solutions')}`,
+          url: `/api/og?title=${encodeURIComponent(`Natural Remedies for ${remedy.title}`)}&subtitle=${encodeURIComponent('Herbal Solutions')}`,
           width: 1200,
           height: 630,
-          alt: `Natural Remedies for ${remedy.condition}`,
+          alt: `Natural Remedies for ${remedy.title}`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Natural Remedies for ${remedy.condition}`,
+      title: `Natural Remedies for ${remedy.title}`,
       description: remedy.description,
       images: [`/api/og?title=${encodeURIComponent(`Natural Remedies for ${remedy.title}`)}&subtitle=${encodeURIComponent('Herbal Solutions')}`],
     },
