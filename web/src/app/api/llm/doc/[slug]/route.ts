@@ -29,7 +29,7 @@ export async function GET(
       slug,
       type: plant ? 'plant' : 'remedy',
       data: plant || remedy,
-      sourceUrl: plant ? plant.url : remedy?.url
+      sourceUrl: plant ? `/plants/${slug}` : `/remedies/${slug}`
     }
 
     return NextResponse.json(response, {
