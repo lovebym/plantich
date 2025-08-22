@@ -12,16 +12,16 @@ export async function GET() {
       ...plants.map(p => ({
         type: "plant",
         slug: p.slug,
-        title: p.name,
+        title: p.title,
         lastUpdated: p.lastUpdated,
-        url: p.url
+        url: `/plants/${p.slug}`
       })),
       ...remedies.map(r => ({
         type: "remedy",
         slug: r.slug,
-        title: r.name,
+        title: r.title,
         lastUpdated: r.lastUpdated,
-        url: r.url
+        url: `/remedies/${r.slug}`
       }))
     ].sort((a, b) => (a.lastUpdated < b.lastUpdated ? 1 : -1)).slice(0, 100)
 
