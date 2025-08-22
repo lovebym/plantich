@@ -29,23 +29,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ...plant.uses
     ],
     openGraph: {
-      title: `${plant.name} (${plant.latin})`,
+      title: `${plant.title} (${plant.latinName})`,
       description: plant.description,
       type: 'article',
       images: [
         {
-          url: `/api/og?title=${encodeURIComponent(plant.name)}&subtitle=${encodeURIComponent(plant.latin)}`,
+          url: `/api/og?title=${encodeURIComponent(plant.title)}&subtitle=${encodeURIComponent(plant.latinName)}`,
           width: 1200,
           height: 630,
-          alt: `${plant.name} - ${plant.latin}`,
+          alt: `${plant.title} - ${plant.latinName}`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${plant.name} (${plant.latin})`,
+      title: `${plant.title} (${plant.latinName})`,
       description: plant.description,
-      images: [`/api/og?title=${encodeURIComponent(plant.name)}&subtitle=${encodeURIComponent(plant.latin)}`],
+      images: [`/api/og?title=${encodeURIComponent(plant.title)}&subtitle=${encodeURIComponent(plant.latinName)}`],
     },
   }
 }
@@ -58,14 +58,14 @@ export default async function PlantPage({ params }: Props) {
     notFound()
   }
 
-  const relatedRemedies = getRemediesForPlant(plant.name)
+  const relatedRemedies = getRemediesForPlant(plant.title)
 
   // JSON-LD structured data
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Drug',
-    name: plant.name,
-    alternateName: plant.latin,
+    name: plant.title,
+    alternateName: plant.latinName,
     description: plant.description,
     category: plant.category,
     preparation: plant.preparation,
@@ -98,8 +98,8 @@ export default async function PlantPage({ params }: Props) {
             <div className="grid md:grid-cols-1 gap-12 items-center text-center">
               {/* Plant Info */}
               <div>
-                <h1 className="font-serif text-4xl text-ink mb-2">{plant.name}</h1>
-                <p className="text-xl text-herbal italic mb-4">{plant.latin}</p>
+                <h1 className="font-serif text-4xl text-ink mb-2">{plant.title}</h1>
+                <p className="text-xl text-herbal italic mb-4">{plant.latinName}</p>
                 {plant.category && (
                   <span className="inline-block px-3 py-1 text-sm bg-herbal/10 text-herbal rounded-full mb-6">
                     {plant.category}
