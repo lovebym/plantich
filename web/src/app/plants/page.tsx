@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { allPlants, getPlantsByCategory } from '@/content'
+import { allPlants, getPlantsByCategory } from '@/lib/content-loader'
 
 export const metadata: Metadata = {
   title: 'Sacred Plant Allies',
