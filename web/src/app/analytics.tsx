@@ -5,7 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 declare global {
   interface Window {
-    dataLayer: Record<string, unknown>[];
+    dataLayer: unknown[];
     clarity: (...args: unknown[]) => void;
     gtag: (...args: unknown[]) => void;
   }
