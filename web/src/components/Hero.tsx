@@ -54,14 +54,14 @@ export default function Hero() {
     // Search plants
     allPlants.forEach(plant => {
       if (
-        plant.name.toLowerCase().includes(lowercaseTerm) ||
-        plant.latin.toLowerCase().includes(lowercaseTerm) ||
+        plant.title.toLowerCase().includes(lowercaseTerm) ||
+        plant.latinName.toLowerCase().includes(lowercaseTerm) ||
         plant.description.toLowerCase().includes(lowercaseTerm) ||
         plant.uses.some(use => use.toLowerCase().includes(lowercaseTerm))
       ) {
         searchResults.push({
           type: 'plant',
-          title: plant.name,
+          title: plant.title,
           slug: plant.slug,
           description: plant.description,
           category: plant.category

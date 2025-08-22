@@ -246,7 +246,7 @@ export default function RemedyRecommender() {
 
             newRecommendations.push({
               plant: {
-                name: plant.name,
+                name: plant.title,
                 slug: plant.slug,
                 description: plant.description,
                 preparation: plant.preparation
@@ -349,7 +349,7 @@ export default function RemedyRecommender() {
               {recommendations.map((rec, index) => (
                 <div key={index} className="apothecary-card p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <h4 className="font-serif text-xl text-ink">{rec.plant.name}</h4>
+                    <h4 className="font-serif text-xl text-ink">{rec.plant.title}</h4>
                     <span className={`text-xs px-2 py-1 rounded-full border ${getPriorityColor(rec.priority)}`}>
                       {getPriorityLabel(rec.priority)}
                     </span>

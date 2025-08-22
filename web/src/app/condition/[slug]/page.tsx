@@ -145,7 +145,7 @@ export default async function ConditionPage({ params }: Props) {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-herbal italic mb-3">{plant.latinName}</p>
+                    <p className="text-sm text-herbal italic mb-3">{plant.latinNameName}</p>
                     <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                       {plant.description}
                     </p>

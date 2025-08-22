@@ -93,9 +93,9 @@ export default function PlantsPage() {
                   className="apothecary-card p-6 hover:shadow-soft transition-all duration-300 group"
                 >
                   <h3 className="font-serif text-xl text-ink mb-2 group-hover:text-herbal transition-colors">
-                    {plant.name}
+                    {plant.title}
                   </h3>
-                  <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                  <p className="text-sm text-herbal italic mb-3">{plant.latinName}</p>
                   <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                     {plant.description}
                   </p>
@@ -140,9 +140,9 @@ export default function PlantsPage() {
                   className="apothecary-card p-6 hover:shadow-soft transition-all duration-300 group"
                 >
                   <h3 className="font-serif text-xl text-ink mb-2 group-hover:text-herbal transition-colors">
-                    {plant.name}
+                    {plant.title}
                   </h3>
-                  <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                  <p className="text-sm text-herbal italic mb-3">{plant.latinName}</p>
                   <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                     {plant.description}
                   </p>
@@ -187,9 +187,9 @@ export default function PlantsPage() {
                   className="apothecary-card p-6 hover:shadow-soft transition-all duration-300 group"
                 >
                   <h3 className="font-serif text-xl text-ink mb-2 group-hover:text-herbal transition-colors">
-                    {plant.name}
+                    {plant.title}
                   </h3>
-                  <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                  <p className="text-sm text-herbal italic mb-3">{plant.latinName}</p>
                   <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                     {plant.description}
                   </p>
@@ -234,9 +234,9 @@ export default function PlantsPage() {
                   className="apothecary-card p-6 hover:shadow-soft transition-all duration-300 group"
                 >
                   <h3 className="font-serif text-xl text-ink mb-2 group-hover:text-herbal transition-colors">
-                    {plant.name}
+                    {plant.title}
                   </h3>
-                  <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                  <p className="text-sm text-herbal italic mb-3">{plant.latinName}</p>
                   <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                     {plant.description}
                   </p>
