@@ -1,8 +1,6 @@
 import { Metadata } from 'next'
-import Hero from '@/components/Hero'
 import SectionIntro from '@/components/SectionIntro'
 import SectionCategories from '@/components/SectionCategories'
-import RemedyRecommender from '@/components/RemedyRecommender'
 import SectionCTA from '@/components/SectionCTA'
 
 export const metadata: Metadata = {
@@ -46,9 +44,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="bg-background min-h-screen">
-      <Hero />
       <SectionIntro />
-      <RemedyRecommender />
       <SectionCategories />
       <SectionCTA />
     </div>
