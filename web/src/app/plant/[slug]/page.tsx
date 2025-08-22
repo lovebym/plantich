@@ -18,34 +18,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${plant.title} (${plant.latinNameName})`,
+    title: `${plant.title} (${plant.latinName})`,
     description: plant.description,
     keywords: [
       plant.title,
-      plant.latinNameName,
+      plant.latinName,
       'medicinal plant',
       'herbal remedy',
       'natural medicine',
       ...plant.uses
     ],
     openGraph: {
-      title: `${plant.title} (${plant.latinNameName})`,
+      title: `${plant.title} (${plant.latinName})`,
       description: plant.description,
       type: 'article',
       images: [
         {
-          url: `/api/og?title=${encodeURIComponent(plant.title)}&subtitle=${encodeURIComponent(plant.latinNameName)}`,
+          url: `/api/og?title=${encodeURIComponent(plant.title)}&subtitle=${encodeURIComponent(plant.latinName)}`,
           width: 1200,
           height: 630,
-          alt: `${plant.title} - ${plant.latinNameName}`,
+          alt: `${plant.title} - ${plant.latinName}`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${plant.title} (${plant.latinNameName})`,
+      title: `${plant.title} (${plant.latinName})`,
       description: plant.description,
-      images: [`/api/og?title=${encodeURIComponent(plant.title)}&subtitle=${encodeURIComponent(plant.latinNameName)}`],
+      images: [`/api/og?title=${encodeURIComponent(plant.title)}&subtitle=${encodeURIComponent(plant.latinName)}`],
     },
   }
 }
@@ -65,7 +65,7 @@ export default async function PlantPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'Drug',
     name: plant.title,
-    alternateName: plant.latinNameName,
+    alternateName: plant.latinName,
     description: plant.description,
     category: plant.category,
     preparation: plant.preparation,
@@ -99,7 +99,7 @@ export default async function PlantPage({ params }: Props) {
               {/* Plant Info */}
               <div>
                 <h1 className="font-serif text-4xl text-ink mb-2">{plant.title}</h1>
-                <p className="text-xl text-herbal italic mb-4">{plant.latinNameName}</p>
+                <p className="text-xl text-herbal italic mb-4">{plant.latinName}</p>
                 {plant.category && (
                   <span className="inline-block px-3 py-1 text-sm bg-herbal/10 text-herbal rounded-full mb-6">
                     {plant.category}
