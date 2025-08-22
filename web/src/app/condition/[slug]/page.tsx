@@ -139,9 +139,9 @@ export default async function ConditionPage({ params }: Props) {
                   >
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="font-serif text-xl text-ink">{plant.title}</h3>
-                      {plant.category && (
+                      {(plant.category || 'General') && (
                         <span className="text-xs px-2 py-1 bg-herbal/10 text-herbal rounded-full">
-                          {plant.category}
+                          {plant.category || 'General'}
                         </span>
                       )}
                     </div>

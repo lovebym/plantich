@@ -36,6 +36,7 @@ export interface Plant {
     folklore: string[]
     wisdom: string[]
   }
+  category?: string
 }
 
 // Remedy interface
