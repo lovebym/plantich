@@ -28,7 +28,10 @@
   },
   "dependencies": {
     "@sanity/client": "^7.9.0",
+    "@sanity/image-url": "^1.1.0",
+    "googleapis": "^156.0.0",
     "next": "15.5.0",
+    "next-sanity": "^10.0.13",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

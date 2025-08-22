@@ -101,7 +101,7 @@ import adrenalSupportRemedy from './remedies/adrenal-support';
 import afternoonSlumpRemedy from './remedies/afternoon-slump';
 import allergiesRemedy from './remedies/allergies';
 import antiAgingRemedy from './remedies/anti-aging';
-import anxietyRemedy from './remedies/anxiety';
+import anxietyRemedy from './remedies/mind/anxiety';
 import arthritisRemedy from './remedies/arthritis';
 import asthmaRemedy from './remedies/asthma';
 import autoimmuneSupportRemedy from './remedies/autoimmune-support';

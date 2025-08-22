@@ -1,8 +1,9 @@
-import { createClient } from '@sanity/client'
+import { sanityClient } from './sanity.client';
+import { plantBySlug, remedyBySlug } from './queries';
 
-export const client = createClient({
-  projectId: 'b9a148km',
-  dataset: 'production',
-  apiVersion: '2024-01-01', // Use today's date or your preferred version
-  useCdn: false, // Set to false for fresh data
-})
+export async function getPlantBySlug(slug:string){
+  return sanityClient.fetch(plantBySlug, { slug });
+}
+export async function getRemedyBySlug(slug:string){
+  return sanityClient.fetch(remedyBySlug, { slug });
+}
