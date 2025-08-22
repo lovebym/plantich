@@ -227,7 +227,7 @@ export default function RemedyRecommender() {
       selectedSymptoms.forEach(symptomId => {
         // Find remedies for this symptom
         const relevantRemedies = allRemedies.filter(remedy => 
-          remedy.condition.toLowerCase().includes(symptomId) ||
+          remedy.title.toLowerCase().includes(symptomId) ||
           remedy.herbs.some(herb => herb.toLowerCase().includes(symptomId))
         )
 

@@ -93,7 +93,7 @@ export default function ConditionsPage() {
                   className="apothecary-card p-6 hover:shadow-soft transition-all duration-300 group"
                 >
                   <h3 className="font-serif text-xl text-ink mb-3 group-hover:text-herbal transition-colors">
-                    {remedy.condition}
+                    {remedy.title}
                   </h3>
                   <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                     {remedy.description}
@@ -142,7 +142,7 @@ export default function ConditionsPage() {
                   className="apothecary-card p-6 hover:shadow-soft transition-all duration-300 group"
                 >
                   <h3 className="font-serif text-xl text-ink mb-3 group-hover:text-herbal transition-colors">
-                    {remedy.condition}
+                    {remedy.title}
                   </h3>
                   <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                     {remedy.description}
@@ -191,7 +191,7 @@ export default function ConditionsPage() {
                   className="apothecary-card p-6 hover:shadow-soft transition-all duration-300 group"
                 >
                   <h3 className="font-serif text-xl text-ink mb-3 group-hover:text-herbal transition-colors">
-                    {remedy.condition}
+                    {remedy.title}
                   </h3>
                   <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                     {remedy.description}
@@ -240,7 +240,7 @@ export default function ConditionsPage() {
                   className="apothecary-card p-6 hover:shadow-soft transition-all duration-300 group"
                 >
                   <h3 className="font-serif text-xl text-ink mb-3 group-hover:text-herbal transition-colors">
-                    {remedy.condition}
+                    {remedy.title}
                   </h3>
                   <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                     {remedy.description}

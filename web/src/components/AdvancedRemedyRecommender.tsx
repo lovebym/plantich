@@ -347,7 +347,7 @@ export default function AdvancedRemedyRecommender() {
       
       // Find remedies for this symptom
       const relevantRemedies = allRemedies.filter(remedy => 
-        remedy.condition.toLowerCase().includes(symptom.name.toLowerCase()) ||
+        remedy.title.toLowerCase().includes(symptom.name.toLowerCase()) ||
         remedy.herbs.some(herb => herb.toLowerCase().includes(symptom.name.toLowerCase()))
       )
       

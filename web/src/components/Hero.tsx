@@ -72,13 +72,13 @@ export default function Hero() {
     // Search remedies
     allRemedies.forEach(remedy => {
       if (
-        remedy.condition.toLowerCase().includes(lowercaseTerm) ||
+        remedy.title.toLowerCase().includes(lowercaseTerm) ||
         remedy.description.toLowerCase().includes(lowercaseTerm) ||
         remedy.herbs.some(herb => herb.toLowerCase().includes(lowercaseTerm))
       ) {
         searchResults.push({
           type: 'remedy',
-          title: remedy.condition,
+          title: remedy.title,
           slug: remedy.slug,
           description: remedy.description,
           category: remedy.category

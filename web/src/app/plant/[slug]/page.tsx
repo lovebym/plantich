@@ -153,7 +153,7 @@ export default async function PlantPage({ params }: Props) {
                     href={`/condition/${remedy.slug}`}
                     className="apothecary-card p-6 hover:shadow-soft transition-shadow"
                   >
-                    <h3 className="font-serif text-xl text-ink mb-3">{remedy.condition}</h3>
+                    <h3 className="font-serif text-xl text-ink mb-3">{remedy.title}</h3>
                     <p className="text-sm text-ink font-sans line-clamp-3">
                       {remedy.description}
                     </p>
