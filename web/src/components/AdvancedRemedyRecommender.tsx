@@ -444,7 +444,7 @@ export default function AdvancedRemedyRecommender() {
     const match = dosage.match(/(\d+)-?(\d+)?/)
     if (!match) return dosage
     
-    const min = Math.round(parseInt(match[1]) * factor)
+    const min = Math.round(parseInt(match[1] || '0') * factor)
     const max = match[2] ? Math.round(parseInt(match[2]) * factor) : min
     
     return `${min}-${max}mg`

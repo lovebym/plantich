@@ -1,78 +1,66 @@
-# Plantich Content Generation Rules
+# Plantich Project Rules
 
-## Project Overview
-Plantich is a Nordic herbal medicine platform with clean, evidence-aware content. All content is educational only, no medical claims.
+## Context & Stack
+- Framework: Next.js (app/), TypeScript, pnpm, Tailwind, Sanity
+- Goal: fast dev-loop, minimize AI errors, consistent structure, SEO-friendly
 
-## Content Guidelines
-- **Tone**: Nordic apothecary meets Byredo - clean, warm, precise
-- **Language**: English only
-- **Safety**: Always include cautions, contraindications, "consult clinician"
-- **Evidence**: Reference reliable sources (Examine, MSKCC, NIH/ODS, PubMed)
-- **No medical claims**: Educational only, no treatment/cure promises
+## Package & Tooling
+- Use pnpm package manager. Remove package-lock.json if it exists
+- Node: use .nvmrc (e.g. 20.14) and nvm use
+- Scripts should be: pnpm dev, pnpm build, pnpm typecheck, pnpm lint, pnpm test
 
 ## File Structure
-- Plants: `src/content/plants/<slug>.ts`
-- Remedies: `src/content/remedies/<slug>.ts`
-- Use kebab-case for slugs and filenames
-- One default export per file
+- Stick to app/, don't mix with pages/
+- Alias @/* points to src/*. Use consistently in imports
 
-## Content Types
+## TypeScript
+- Compiler should use (minimum requirements):
+  - strict: true
+  - noUncheckedIndexedAccess: true
+  - skipLibCheck: true
+  - moduleResolution: "Bundler"
+  - baseUrl: "."
+  - paths: { "@/*": ["./src/*"] }
 
-### Plants
-Follow the Plant interface with exact field names:
-- slug, commonName, latinName, deck
-- tags, outcomes, partsUsed, actions, forms
-- howItMayWork, howToUse (with typicalRanges, timing, withFood, preparationTips)
-- combineThoughtfully, cautions, interactions, pregnancyLactation
-- whenToAvoid, ritualIdea, relatedPlants, relatedRemedies
-- references, seo (title ≤60 chars, description 150-160 chars)
+## Sanity
+- Single client: src/lib/sanity/client.ts
+- Environment variables: SANITY_PROJECT_ID, SANITY_DATASET, SANITY_API_VERSION, SANITY_TOKEN (if write)
+- Cache readings with Next cache where appropriate
 
-### Remedies
-Follow the Remedy interface with exact field names:
-- slug, name, deck, overview
-- quickPaths, corePlants, rituals, lifestyle
-- safetyNotes, whenToSeekCare, faq
-- relatedRemedies, relatedPlants, references, seo
+## Tailwind
+- content should cover: ./app/**/*.{ts,tsx}, ./components/**/*.{ts,tsx}, ./src/**/*.{ts,tsx}
+- Don't use Tailwind classes in dynamic strings (to avoid missing purge)
 
-## Quality Checklist
-- [ ] Filename matches slug (kebab-case)
-- [ ] SEO title ≤60 characters, description 150-160 characters
-- [ ] All text in English
-- [ ] Cautions and safety notes present and clear
-- [ ] 1-4 references with reliable URLs
-- [ ] Related fields point to existing/planned slugs
-- [ ] No medical promises, "educational only"
+## Quality
+- ESLint + Prettier (formatOnSave)
+- Prefer Zod for schema/validation
+- Ask Cursor to write tests first for new logic (vitest/jest), run tests, fix errors in small steps
 
-## Safety Requirements
-- Always mention pregnancy/lactation cautions
-- Include medication interaction warnings
-- Add "consult your clinician" disclaimers
-- List contraindications clearly
-- Include "when to seek care" guidance
+## Performance in Cursor
+- Keep AI context small: ignore build folders and node_modules
+- When suggestions become "off": Project → Reindex embeddings
+- Work in small tasks (one feature at a time)
+- Use "Fix" in diff view before new broad prompts
 
-## Writing Style
-- Plain English, short paragraphs
-- Bullet points for scannability
-- Evidence-aware language
-- Conservative safety stance
-- Warm, approachable tone
+## Standard reset when things break
+```
+git add -A && git commit -m "checkpoint"
+rm -rf node_modules .next .turbo dist
+pnpm install
+pnpm dedupe
+pnpm typecheck
+pnpm build
+pnpm dev
+```
 
-## References (Use These Sources)
-- Examine.com
-- MSKCC About Herbs
-- Natural Medicines Database
-- NIH Office of Dietary Supplements
-- PubMed systematic reviews
-- WHO monographs
-- Cochrane plain-language summaries
+## Rule for AI output
+- Before creating new file: list which files you plan to change
+- Every major change should come with reason, risk and rollback
+- Always generate minimum working version + short tests
 
-## Commit Style
-- `content(plants): add [plant-name]`
-- `content(remedies): add [condition-name]`
-- Batch commits for 3-5 files
+## Ignore (for AI context in Cursor)
+- Exclude: **/node_modules/**, .next/**, .turbo/**, dist/**, build/**
 
-## Important Legal Notes
-- NEVER claim Plantich treats, cures, or diagnoses
-- ALWAYS encourage consulting healthcare providers
-- Use "educational only" and "consult your clinician"
-- No medical outcome guarantees
+## DoR / Definition of Ready for tasks
+- Has input: purpose, files, API keys (if needed), env keys, test cases
+- If anything is missing: ask only about what blocks
