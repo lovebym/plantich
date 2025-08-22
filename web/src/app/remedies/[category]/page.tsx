@@ -3,13 +3,13 @@ import { notFound } from 'next/navigation'
 import { getRemediesByCategory, getAllCategories } from '@/lib/remedies'
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     category: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const category = params.category
+  const { category } = await params
   const remedies = getRemediesByCategory(category)
   
   if (remedies.length === 0) {
@@ -109,8 +109,8 @@ const categoryInfo = {
   }
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const category = params.category
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { category } = await params
   const remedies = getRemediesByCategory(category)
   const info = categoryInfo[category as keyof typeof categoryInfo]
 
