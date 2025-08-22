@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { allRemedies, getRemediesByCategory } from '@/content'
+import { allRemedies, getRemediesByCategory } from '@/lib/content-loader'
 
 export const metadata: Metadata = {
   title: 'Natural Pathways to Healing',
@@ -101,7 +101,7 @@ export default function ConditionsPage() {
                   <div className="border-t border-shadow/30 pt-4">
                     <p className="text-xs text-herbal font-sans mb-2">Helpful plants:</p>
                     <div className="flex flex-wrap gap-1">
-                      {remedy.herbs.slice(0, 4).map((herb, index) => (
+                      {remedy.plants.slice(0, 4).map((herb, index) => (
                         <span 
                           key={index} 
                           className="text-xs px-2 py-1 bg-sand text-ink rounded-full"
@@ -109,8 +109,8 @@ export default function ConditionsPage() {
                           {herb}
                         </span>
                       ))}
-                      {remedy.herbs.length > 4 && (
-                        <span className="text-xs text-herbal">+{remedy.herbs.length - 4} more</span>
+                      {remedy.plants.length > 4 && (
+                        <span className="text-xs text-herbal">+{remedy.plants.length - 4} more</span>
                       )}
                     </div>
                   </div>
@@ -150,7 +150,7 @@ export default function ConditionsPage() {
                   <div className="border-t border-shadow/30 pt-4">
                     <p className="text-xs text-herbal font-sans mb-2">Helpful plants:</p>
                     <div className="flex flex-wrap gap-1">
-                      {remedy.herbs.slice(0, 4).map((herb, index) => (
+                      {remedy.plants.slice(0, 4).map((herb, index) => (
                         <span 
                           key={index} 
                           className="text-xs px-2 py-1 bg-sand text-ink rounded-full"
@@ -158,8 +158,8 @@ export default function ConditionsPage() {
                           {herb}
                         </span>
                       ))}
-                      {remedy.herbs.length > 4 && (
-                        <span className="text-xs text-herbal">+{remedy.herbs.length - 4} more</span>
+                      {remedy.plants.length > 4 && (
+                        <span className="text-xs text-herbal">+{remedy.plants.length - 4} more</span>
                       )}
                     </div>
                   </div>
@@ -199,7 +199,7 @@ export default function ConditionsPage() {
                   <div className="border-t border-shadow/30 pt-4">
                     <p className="text-xs text-herbal font-sans mb-2">Helpful plants:</p>
                     <div className="flex flex-wrap gap-1">
-                      {remedy.herbs.slice(0, 4).map((herb, index) => (
+                      {remedy.plants.slice(0, 4).map((herb, index) => (
                         <span 
                           key={index} 
                           className="text-xs px-2 py-1 bg-sand text-ink rounded-full"
@@ -207,8 +207,8 @@ export default function ConditionsPage() {
                           {herb}
                         </span>
                       ))}
-                      {remedy.herbs.length > 4 && (
-                        <span className="text-xs text-herbal">+{remedy.herbs.length - 4} more</span>
+                      {remedy.plants.length > 4 && (
+                        <span className="text-xs text-herbal">+{remedy.plants.length - 4} more</span>
                       )}
                     </div>
                   </div>
@@ -248,7 +248,7 @@ export default function ConditionsPage() {
                   <div className="border-t border-shadow/30 pt-4">
                     <p className="text-xs text-herbal font-sans mb-2">Helpful plants:</p>
                     <div className="flex flex-wrap gap-1">
-                      {remedy.herbs.slice(0, 4).map((herb, index) => (
+                      {remedy.plants.slice(0, 4).map((herb, index) => (
                         <span 
                           key={index} 
                           className="text-xs px-2 py-1 bg-sand text-ink rounded-full"
@@ -256,8 +256,8 @@ export default function ConditionsPage() {
                           {herb}
                         </span>
                       ))}
-                      {remedy.herbs.length > 4 && (
-                        <span className="text-xs text-herbal">+{remedy.herbs.length - 4} more</span>
+                      {remedy.plants.length > 4 && (
+                        <span className="text-xs text-herbal">+{remedy.plants.length - 4} more</span>
                       )}
                     </div>
                   </div>
