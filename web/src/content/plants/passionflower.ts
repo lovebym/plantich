@@ -1,24 +1,34 @@
-import { Plant } from '../types';
+import type { Plant } from "../../lib/content-loader";
 
-const passionflower: Plant = {
-  name: "Passionflower",
-  latin: "Passiflora incarnata",
+const plant: Plant = {
   slug: "passionflower",
-  uses: [
-    "Anxiety",
-    "Insomnia",
-    "Restlessness",
-    "Nervous Tension",
+  commonName: "Passionflower",
+  latinName: "Passiflora incarnata",
+  deck: "Bedtime ally for racing thoughts and tension.",
+  tags: ["sleep","calming"],
+  outcomes: ["sleep","anxiety"],
+  partsUsed: ["aerial parts"],
+  actions: ["anxiolytic","sedative"],
+  forms: ["tea","tincture","capsule"],
+  howItMayWork: "Traditionally used to quiet mental chatter and support sleep onset; modern summaries suggest gentle anxiolytic/sedative properties.",
+  howToUse: {
+    typicalRanges: ["Tea: 1–2 tsp dried herb, 10 min infusion", "Capsule/tincture per label"],
+    timing: ["30–60 minutes before bed"],
+  },
+  cautions: ["Drowsiness—avoid driving after use","Avoid combining with multiple sedatives"],
+  interactions: ["sedatives"],
+  pregnancyLactation: "Insufficient data—avoid unless clinician advises.",
+  ritualIdea: "Screen‑down hour + passionflower tea + low light.",
+  relatedPlants: ["lemon-balm","chamomile","ashwagandha"],
+  relatedRemedies: ["sleep","anxiety"],
+  references: [
+    { title: "MSKCC – About Herbs: Passionflower", url: "https://www.mskcc.org/cancer-care/integrative-medicine/herbs/passionflower" }
   ],
-  description:
-    "Passionflower is a gentle nervine herb traditionally used to calm anxiety and promote peaceful sleep. Unlike some sedatives, it doesn't cause drowsiness during the day when used appropriately.",
-  preparation:
-    "Tea from dried aerial parts, liquid extract, or standardized capsules. Often combined with other calming herbs.",
-  sources: [
-    { name: "WebMD", url: "https://www.webmd.com/vitamins/ai/ingredientmono-871/passionflower" },
-    { name: "National Center for Complementary Health", url: "https://www.nccih.nih.gov/health/passionflower" },
-  ],
-  category: "Mind",
+  seo: {
+    title: "Passionflower — Sleep, Calm, Safety | Plantich",
+    description: "Passionflower for sleep and calm: how to use, timing before bed, and cautions."
+  },
+  lastUpdated: "2025-01-22"
 };
 
-export default passionflower;
+export default plant;

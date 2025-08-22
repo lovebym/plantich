@@ -1,17 +1,37 @@
-import { Plant } from '../types';
+import type { Plant } from "../../lib/content-loader";
 
-const rhodiola: Plant = {
-  name: "Rhodiola",
-  latin: "Rhodiola rosea",
+const plant: Plant = {
   slug: "rhodiola",
-  uses: ["Fatigue", "Stress", "Depression", "Low Energy", "Brain Fog"],
-  description: "A powerful adaptogenic herb that grows in cold, high-altitude regions. Known as 'golden root' in traditional medicine, it enhances mental and physical performance while reducing stress and fatigue.",
-  preparation: "Capsules, tincture, or tea. Best taken in the morning for energy support.",
-  sources: [
-    { name: "PubMed", url: "https://pubmed.ncbi.nlm.nih.gov/?term=rhodiola+rosea" },
-    { name: "WebMD", url: "https://www.webmd.com/vitamins/ai/ingredientmono-883/rhodiola" }
+  commonName: "Rhodiola",
+  latinName: "Rhodiola rosea",
+  deck: "Stimulating adaptogen for stress, energy, and focus.",
+  tags: ["adaptogen","energy","focus"],
+  outcomes: ["energy","focus","stress"],
+  partsUsed: ["root"],
+  actions: ["adaptogenic","stimulating","nootropic"],
+  forms: ["capsule","tincture"],
+  howItMayWork: "May influence cellular energy and stress‑response pathways, supporting mental performance under strain. Often more energizing than calming adaptogens.",
+  howToUse: {
+    typicalRanges: ["200–400 mg standardized extract/day", "Morning or early afternoon"],
+    timing: ["AM for energy/focus"],
+    withFood: "With food if sensitive."
+  },
+  cautions: ["May feel overstimulating in some","Avoid near bedtime","Caution with bipolar spectrum"],
+  whenToAvoid: ["Late evening dosing"],
+  interactions: ["stimulants","antidepressants: consult clinician"],
+  pregnancyLactation: "Insufficient data—avoid unless advised.",
+  ritualIdea: "Morning dose + walk in daylight; avoid late caffeine stacking.",
+  relatedPlants: ["ashwagandha","tulsi","turmeric"],
+  relatedRemedies: ["energy","focus","anxiety"],
+  references: [
+    { title: "Examine – Rhodiola Overview", url: "https://examine.com/supplements/rhodiola-rosea/" },
+    { title: "MSKCC – About Herbs: Rhodiola", url: "https://www.mskcc.org/cancer-care/integrative-medicine/herbs/rhodiola" }
   ],
-  category: "Mind",
+  seo: {
+    title: "Rhodiola — Energy, Focus, Safety | Plantich",
+    description: "How rhodiola may support energy and focus, with typical ranges, timing, and cautions."
+  },
+  lastUpdated: "2025-01-22"
 };
 
-export default rhodiola;
+export default plant;
