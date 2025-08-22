@@ -158,13 +158,13 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   </p>
                 </div>
 
-                {remedy.herbs && remedy.herbs.length > 0 && (
+                {remedy.plants && remedy.plants.length > 0 && (
                   <div className="mb-4">
                     <h4 className="text-sm font-medium text-ink mb-2">
                       Key Herbs
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {remedy.herbs.slice(0, 3).map((herb) => (
+                      {remedy.plants.slice(0, 3).map((herb) => (
                         <a
                           key={herb}
                           href={`/plants/${herb}`}
@@ -173,9 +173,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                           {herb}
                         </a>
                       ))}
-                      {remedy.herbs.length > 3 && (
+                      {remedy.plants.length > 3 && (
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-sand text-gray-500">
-                          +{remedy.herbs.length - 3} more
+                          +{remedy.plants.length - 3} more
                         </span>
                       )}
                     </div>

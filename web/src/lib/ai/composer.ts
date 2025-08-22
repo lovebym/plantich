@@ -1,84 +1,63 @@
-import type { Plant, Remedy } from "../types";
+import type { Plant, Remedy } from "../content-loader";
 import type { AIResponse, AISnippet, AIHit, AISource } from "./types";
 
-function firstLines(text: string, nSent = 2) {
-  const s = (text || "").split(/(?<=\.)\s+/).slice(0, nSent).join(" ");
-  return s.length ? s : text;
-}
-
-function plantToHit(p: Plant, why: string[], score: number): AIHit {
-  const sources: AISource[] = (p.sources || []).slice(0,4);
-  return {
-    type: "plant",
-    slug: p.slug,
-    title: p.name,
-    deck: p.description,
-    why,
-    cautions: [], // Will be populated from comprehensive data
-    howToUse: [p.preparation],
-    sources,
-    score,
-    url: `/plants/${p.slug}`
-  };
-}
-
-function remedyToHit(r: Remedy, why: string[], score: number): AIHit {
-  const sources: AISource[] = []; // Will be populated from comprehensive data
-  return {
-    type: "remedy",
-    slug: r.slug,
-    title: r.condition,
-    deck: r.description,
-    why,
-    cautions: [], // Will be populated from comprehensive data
-    howToUse: [r.approach],
-    sources,
-    score,
-    url: `/remedies/${r.slug}`
-  };
-}
-
-export function composeResponse(opts: {
+export function composeResponse(data: {
   q: string;
   tokens: string[];
-  topRemedies: { remedy: Remedy; score: number; why: string[] }[];
-  topPlants: { plant: Plant; score: number; why: string[] }[];
+  topRemedies: AIHit[];
+  topPlants: AIHit[];
   maxItems?: number;
 }): AIResponse {
-  const { tokens, topRemedies, topPlants } = opts;
-  const maxItems = opts.maxItems ?? 8;
+  const { q, tokens, topRemedies, topPlants, maxItems = 8 } = data;
 
-  // TL;DR prioritera remedy + plant mix
-  const leadRemedy = topRemedies[0]?.remedy;
-  const leadPlant = topPlants[0]?.plant;
+  // Plant snippets
+  const plantSnippets: AISnippet[] = topPlants.slice(0, 4).map(p => {
+    const sources: AISource[] = (p.plant.references || []).slice(0,4);
+    
+    return {
+      type: "plant" as const,
+      title: p.plant.title,
+      description: p.plant.description,
+      howToUse: [p.plant.dosage || 'Not specified'],
+      sources,
+      score: p.score,
+      why: p.why
+    };
+  });
 
-  const tldrText = leadRemedy
-    ? `For ${leadRemedy.condition.toLowerCase()}, common options include ${leadRemedy.herbs.slice(0,2).join(" & ")}. Start low, track response for 1–2 weeks, and avoid stacking multiple sedatives. See cautions and sources below.`
+  // Remedy snippets  
+  const remedySnippets: AISnippet[] = topRemedies.slice(0, 4).map(r => {
+    return {
+      type: "remedy" as const,
+      title: r.remedy.title,
+      description: r.remedy.description,
+      howToUse: [r.remedy.approach || 'Not specified'],
+      sources: [],
+      score: r.score,
+      why: r.why
+    };
+  });
+
+  // Combine and sort by score
+  const allSnippets = [...plantSnippets, ...remedySnippets]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, maxItems);
+
+  // Generate summary
+  const leadRemedy = topRemedies[0];
+  const leadPlant = topPlants[0];
+  
+  const summary = leadRemedy && leadPlant
+    ? `For ${leadRemedy.remedy.title.toLowerCase()}, common options include ${leadRemedy.remedy.plants.slice(0,2).join(" & ")}. Start low, track response for 1–2 weeks, and avoid stacking multiple sedatives. See cautions and sources below.`
     : leadPlant
-      ? `${leadPlant.name} is often used for ${leadPlant.uses.slice(0,2).join(" & ")}. Typical preparation: ${leadPlant.preparation}. Review cautions and interactions before use.`
-      : `Here are relevant Plantich resources based on your query. Review cautions and sources before use.`;
-
-  const tldr: AISnippet = { title: "In brief", text: tldrText };
-
-  // slå ihop toppar, med liten växling remedy/plant
-  const hits: AIHit[] = [];
-  let ri = 0, pi = 0;
-  while (hits.length < maxItems && (ri < topRemedies.length || pi < topPlants.length)) {
-    if (ri < topRemedies.length) {
-      const r = topRemedies[ri++]; 
-      hits.push(remedyToHit(r.remedy, r.why, r.score));
-    }
-    if (hits.length >= maxItems) break;
-    if (pi < topPlants.length) {
-      const p = topPlants[pi++]; 
-      hits.push(plantToHit(p.plant, p.why, p.score));
-    }
-  }
+      ? `${leadPlant.plant.title} is often used for ${leadPlant.plant.uses.slice(0,2).join(" & ")}. Typical preparation: ${leadPlant.plant.dosage || 'Not specified'}. Review cautions and interactions before use.`
+      : "No specific recommendations found. Please consult with a healthcare provider.";
 
   return {
-    tldr,
-    hits,
-    safety: "Educational only. Consult a qualified clinician—especially with medications, pregnancy or ongoing conditions.",
-    queryEcho: tokens.join(" ")
+    query: q,
+    summary,
+    snippets: allSnippets,
+    totalResults: allSnippets.length,
+    searchTerms: tokens
   };
 }

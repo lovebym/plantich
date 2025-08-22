@@ -1,34 +1,25 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
+import type { Plant, Remedy, Category } from './content-loader'
 
-export interface SEOData {
-  title: string
-  description: string
-  keywords?: string[]
-  image?: string
-  type?: 'website' | 'article'
-  publishedTime?: string
-  modifiedTime?: string
-  author?: string
-}
-
-export function generatePlantSEO(plant: Record<string, unknown>): Metadata {
-  const title = `${plant.title} - Uses, Benefits & Safety | Plantich`
+export function buildPlantMetadata(plant: Plant): Metadata {
   const description = `${plant.title} (${plant.latinName}) - Discover how this powerful herb can help with ${plant.uses.slice(0, 3).join(', ')}. Evidence-based guidance on dosage, safety, and traditional uses.`
-  
+
+  const keywords = [
+    plant.title.toLowerCase(),
+    plant.latinName.toLowerCase(),
+    'medicinal plant',
+    'herbal remedy',
+    'natural medicine',
+    ...plant.uses.map((use: string) => use.toLowerCase()),
+    ...(plant.tags || [])
+  ]
+
   return {
-    title,
+    title: `${plant.title} (${plant.latinName}) - Medicinal Plant Guide`,
     description,
-    keywords: [
-      plant.title.toLowerCase(),
-      plant.latinName.toLowerCase(),
-      'herbal medicine',
-      'natural remedies',
-      'medicinal plants',
-      ...plant.uses.map((use: string) => use.toLowerCase()),
-      ...plant.tags || []
-    ],
+    keywords: keywords.join(', '),
     openGraph: {
-      title,
+      title: `${plant.title} - Medicinal Plant Guide`,
       description,
       type: 'article',
       images: [
@@ -36,42 +27,37 @@ export function generatePlantSEO(plant: Record<string, unknown>): Metadata {
           url: plant.image || '/og-plant-default.jpg',
           width: 1200,
           height: 630,
-          alt: `${plant.title} - Medicinal plant`
-        }
+          alt: `${plant.title} medicinal plant`,
+        },
       ],
-      publishedTime: plant.lastUpdated,
-      modifiedTime: plant.lastUpdated,
-      authors: ['Plantich Team']
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: `${plant.title} - Medicinal Plant Guide`,
       description,
       images: [plant.image || '/og-plant-default.jpg']
     },
-    alternates: {
-      canonical: `https://plantich.com/plants/${plant.slug}`
-    }
   }
 }
 
-export function generateRemedySEO(remedy: Record<string, unknown>): Metadata {
-  const title = `${remedy.title} - Natural Remedies & Herbal Solutions | Plantich`
+export function buildRemedyMetadata(remedy: Remedy): Metadata {
   const description = `Discover natural remedies for ${remedy.title.toLowerCase()}. Learn about effective herbs like ${remedy.plants.slice(0, 3).join(', ')} and evidence-based approaches to wellness.`
-  
+
+  const keywords = [
+    remedy.title.toLowerCase(),
+    'natural remedies',
+    'herbal medicine',
+    'holistic healing',
+    ...remedy.plants.map((plant: string) => plant.toLowerCase()),
+    ...(remedy.symptoms || [])
+  ]
+
   return {
-    title,
+    title: `Natural Remedies for ${remedy.title} - Plantich`,
     description,
-    keywords: [
-      remedy.title.toLowerCase(),
-      'natural remedies',
-      'herbal medicine',
-      'alternative medicine',
-      ...remedy.plants.map((plant: string) => plant.toLowerCase()),
-      ...remedy.symptoms || []
-    ],
+    keywords: keywords.join(', '),
     openGraph: {
-      title,
+      title: `Natural Remedies for ${remedy.title}`,
       description,
       type: 'article',
       images: [
@@ -79,41 +65,36 @@ export function generateRemedySEO(remedy: Record<string, unknown>): Metadata {
           url: remedy.image || '/og-remedy-default.jpg',
           width: 1200,
           height: 630,
-          alt: `${remedy.title} - Natural remedies`
-        }
+          alt: `Natural remedies for ${remedy.title}`,
+        },
       ],
-      publishedTime: remedy.lastUpdated,
-      modifiedTime: remedy.lastUpdated,
-      authors: ['Plantich Team']
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: `Natural Remedies for ${remedy.title}`,
       description,
       images: [remedy.image || '/og-remedy-default.jpg']
     },
-    alternates: {
-      canonical: `https://plantich.com/remedies/${remedy.slug}`
-    }
   }
 }
 
-export function generateCategorySEO(category: Record<string, unknown>): Metadata {
-  const title = `${category.title} - Herbal Remedies & Natural Solutions | Plantich`
+export function buildCategoryMetadata(category: Category): Metadata {
   const description = `Explore natural remedies for ${category.title.toLowerCase()}. Discover effective herbs, traditional wisdom, and evidence-based approaches to ${category.description.toLowerCase()}.`
-  
+
+  const keywords = [
+    category.title.toLowerCase(),
+    'natural remedies',
+    'herbal medicine',
+    'holistic wellness',
+    ...(category.keywords || [])
+  ]
+
   return {
-    title,
+    title: `${category.title} Remedies - Plantich`,
     description,
-    keywords: [
-      category.title.toLowerCase(),
-      'herbal remedies',
-      'natural medicine',
-      'alternative health',
-      ...category.keywords || []
-    ],
+    keywords: keywords.join(', '),
     openGraph: {
-      title,
+      title: `${category.title} Natural Remedies`,
       description,
       type: 'website',
       images: [
@@ -121,58 +102,73 @@ export function generateCategorySEO(category: Record<string, unknown>): Metadata
           url: category.image || '/og-category-default.jpg',
           width: 1200,
           height: 630,
-          alt: `${category.title} - Herbal remedies`
-        }
-      ]
+          alt: `${category.title} natural remedies`,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: `${category.title} Natural Remedies`,
       description,
       images: [category.image || '/og-category-default.jpg']
     },
-    alternates: {
-      canonical: `https://plantich.com/category/${category.slug}`
-    }
   }
 }
 
-export function generateStructuredData(plant: Record<string, unknown>) {
+export function buildJsonLd(plant: Plant) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Drug',
     name: plant.title,
     alternateName: plant.latinName,
     description: plant.description,
-    image: plant.image,
-    category: 'Herbal Medicine',
-    activeIngredient: plant.activeCompounds || [],
-    dosageForm: plant.forms || [],
-    manufacturer: {
-      '@type': 'Organization',
-      name: 'Plantich'
+    category: plant.category,
+    url: `https://plantich.com/plants/${plant.slug}`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://plantich.com/plants/${plant.slug}`,
     },
-    datePublished: plant.lastUpdated,
-    dateModified: plant.lastUpdated
+    publisher: {
+      '@type': 'Organization',
+      name: 'Plantich',
+      url: 'https://plantich.com',
+    },
+    datePublished: new Date().toISOString(),
+    dateModified: new Date().toISOString(),
+    about: plant.uses.map((use: string) => ({
+      '@type': 'MedicalCondition',
+      name: use,
+    })),
   }
 }
 
-export function generateRemedyStructuredData(remedy: Record<string, unknown>) {
+export function buildRemedyJsonLd(remedy: Remedy) {
   return {
     '@context': 'https://schema.org',
     '@type': 'MedicalWebPage',
-    name: remedy.title,
+    name: `Natural Remedies for ${remedy.title}`,
     description: remedy.description,
-    mainEntity: {
-      '@type': 'MedicalCondition',
-      name: remedy.title,
-      description: remedy.description
+    category: remedy.category,
+    url: `https://plantich.com/remedies/${remedy.slug}`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://plantich.com/remedies/${remedy.slug}`,
     },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Plantich',
+      url: 'https://plantich.com',
+    },
+    datePublished: new Date().toISOString(),
+    dateModified: new Date().toISOString(),
     about: remedy.plants.map((plant: string) => ({
-      '@type': 'Drug',
-      name: plant
+      '@type': 'MedicalCondition',
+      name: plant,
     })),
-    datePublished: remedy.lastUpdated,
-    dateModified: remedy.lastUpdated
+    treatment: {
+      '@type': 'MedicalTherapy',
+      name: 'Herbal Remedy',
+      description: remedy.approach,
+    },
   }
 }

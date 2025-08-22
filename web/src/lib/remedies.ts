@@ -1,94 +1,33 @@
-// Dynamic remedies loader for categorized structure
-import { allRemedies } from '@/content'
+import { Remedy } from './content-loader'
 
-// Legacy loader for backward compatibility
-export const remedies = Object.fromEntries(
-  allRemedies.map(remedy => [
-    remedy.slug,
-    {
-      slug: remedy.slug,
-      name: remedy.condition,
-      category: remedy.category || 'Body',
-      description: remedy.description,
-      herbs: remedy.herbs,
-      approach: remedy.approach
-    }
-  ])
-)
-
-// New categorized structure with dynamic imports
-const modules = import.meta.glob('/src/content/remedies/**/*.ts', { eager: true })
-
-const categorizedRemedies = {
-  mind: [],
-  body: [],
-  immunity: [],
-  skin: [],
-  digestion: [],
-  energy: [],
-  hormones: [],
-  pain: [],
-  detox: []
+export function transformRemedyForAI(remedy: Remedy) {
+  return {
+    name: remedy.title,
+    description: remedy.description,
+    herbs: remedy.plants,
+    category: remedy.category,
+    approach: remedy.approach || 'Not specified'
+  }
 }
 
-// Process all remedy files and categorize them
-Object.entries(modules).forEach(([path, mod]) => {
-  const parts = path.split('/')
-  const filename = parts.pop()!.replace('.ts', '')
-  const category = parts[parts.length - 1]
-  
-  if (categorizedRemedies[category as keyof typeof categorizedRemedies]) {
-    const remedy = (mod as unknown).default
-    if (remedy) {
-      categorizedRemedies[category as keyof typeof categorizedRemedies].push({
-        ...remedy,
-        category: category.charAt(0).toUpperCase() + category.slice(1)
-      })
-    }
-  }
-})
+// Categorized remedies for easy access
+export const categorizedRemedies = {
+  mind: [] as Remedy[],
+  body: [] as Remedy[],
+  spirit: [] as Remedy[]
+}
 
-// Also categorize existing remedies from allRemedies
-allRemedies.forEach(remedy => {
-  const category = remedy.category?.toLowerCase() || 'body'
-  if (categorizedRemedies[category as keyof typeof categorizedRemedies]) {
-    const existing = categorizedRemedies[category as keyof typeof categorizedRemedies].find(r => r.slug === remedy.slug)
-    if (!existing) {
-      categorizedRemedies[category as keyof typeof categorizedRemedies].push({
-        slug: remedy.slug,
-        name: remedy.condition,
-        category: remedy.category || 'Body',
-        description: remedy.description,
-        herbs: remedy.herbs,
-        approach: remedy.approach
-      })
-    }
-  }
-})
-
-// Helper function to get remedies by category
-export function getRemediesByCategory(category: string): Array<{
-  slug: string;
-  title?: string;
-  name?: string;
-  condition?: string;
-  category: string;
-  description: string;
-  herbs?: string[];
-  approach?: string;
-}> {
+// This function will be populated by content-loader
+export function getRemediesByCategory(category: string): Remedy[] {
   return categorizedRemedies[category as keyof typeof categorizedRemedies] || []
 }
 
-// Helper function to get all categories
-export function getAllCategories() {
+// Get all categories
+export function getAllCategories(): string[] {
   return Object.keys(categorizedRemedies)
 }
 
-// Get all remedies as a flat array
-export function getAllRemedies() {
-  return Object.values(categorizedRemedies).flat()
-}
-
-export { categorizedRemedies }
-export default remedies
+// Legacy exports for backward compatibility
+export const remedies = Object.fromEntries(
+  [] // Will be populated by content-loader
+)

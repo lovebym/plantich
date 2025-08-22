@@ -1,16 +1,16 @@
-import type { Plant, Remedy } from "../types";
+import type { Plant, Remedy } from "../content-loader";
 import { plantSignals, remedySignals } from "./signals";
 
 export function rankPlants(plants: Plant[], tokens: string[]) {
-  return plants.map(p => {
-    const r = plantSignals(p, tokens);
-    return { plant: p, score: r.score, why: r.hits };
-  }).filter(x => x.score > 0).sort((a,b) => b.score - a.score);
+  return plants
+    .map(p => ({ plant: p, score: plantSignals(p, tokens), why: [] as string[] }))
+    .filter(r => r.score > 0)
+    .sort((a, b) => b.score - a.score);
 }
 
 export function rankRemedies(remedies: Remedy[], tokens: string[]) {
-  return remedies.map(r => {
-    const s = remedySignals(r, tokens);
-    return { remedy: r, score: s.score, why: s.hits };
-  }).filter(x => x.score > 0).sort((a,b) => b.score - a.score);
+  return remedies
+    .map(r => ({ remedy: r, score: remedySignals(r, tokens), why: [] as string[] }))
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score);
 }

@@ -348,11 +348,11 @@ export default function AdvancedRemedyRecommender() {
       // Find remedies for this symptom
       const relevantRemedies = allRemedies.filter(remedy => 
         remedy.title.toLowerCase().includes(symptom.name.toLowerCase()) ||
-        remedy.herbs.some(herb => herb.toLowerCase().includes(symptom.name.toLowerCase()))
+        remedy.plants.some(herb => herb.toLowerCase().includes(symptom.name.toLowerCase()))
       )
       
       relevantRemedies.forEach(remedy => {
-        remedy.herbs.forEach(herb => {
+        remedy.plants.forEach(herb => {
           const plantSlug = herb.toLowerCase().replace(/\s+/g, '-')
           const currentScore = plantScores.get(plantSlug) || 0
           

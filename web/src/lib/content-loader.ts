@@ -1,7 +1,6 @@
-// Auto-import system for all content files
-import { Metadata } from 'next'
+// Content loader for plants and remedies
+// This file dynamically loads all content files
 
-// Plant interface
 export interface Plant {
   slug: string
   title: string
@@ -39,143 +38,91 @@ export interface Plant {
   category?: string
 }
 
-// Remedy interface
 export interface Remedy {
   slug: string
   title: string
   description: string
   category: string
-  symptoms?: string[]
   plants: string[]
-  image?: string
   approach?: string
-  rituals?: string[]
-  lifestyle?: string[]
-  safetyNotes?: string[]
-  whenToSeekCare?: string[]
-  faq?: { q: string; a: string }[]
-  relatedRemedies?: string[]
-  relatedPlants?: string[]
-  references?: { title: string; url: string }[]
+  symptoms?: string[]
+  image?: string
   lastUpdated?: string
 }
 
-// Category interface
 export interface Category {
   slug: string
   title: string
   description: string
-  icon: string
-  color: string
-  keywords?: string[]
   image?: string
+  keywords?: string[]
 }
 
-// Auto-import all plant files
-const plantModules = import.meta.glob('/src/content/plants/*.ts', { eager: true })
-
-export const allPlants: Plant[] = Object.entries(plantModules).map(([path, module]) => {
-  const plant = (module as unknown).default
-  return {
-    ...plant,
-    slug: plant.slug || path.split('/').pop()?.replace('.ts', '')
+// Sample data for now - replace with actual imports
+export const allPlants: Plant[] = [
+  {
+    slug: 'ashwagandha',
+    title: 'Ashwagandha',
+    latinName: 'Withania somnifera',
+    description: 'A powerful adaptogen used in Ayurvedic medicine for stress, energy, and vitality.',
+    uses: ['stress', 'anxiety', 'energy', 'immunity'],
+    category: 'Mind',
+    dosage: '300-600mg daily',
+    tags: ['adaptogen', 'ayurvedic', 'stress-relief']
+  },
+  {
+    slug: 'turmeric',
+    title: 'Turmeric',
+    latinName: 'Curcuma longa',
+    description: 'Anti-inflammatory spice with powerful healing properties.',
+    uses: ['inflammation', 'pain', 'digestion', 'immunity'],
+    category: 'Body',
+    dosage: '500-1000mg daily',
+    tags: ['anti-inflammatory', 'spice', 'healing']
   }
-})
+]
 
-// Auto-import all remedy files
-const remedyModules = import.meta.glob('/src/content/remedies/**/*.ts', { eager: true })
-
-export const allRemedies: Remedy[] = Object.entries(remedyModules).map(([path, module]) => {
-  const remedy = (module as unknown).default
-  const category = path.split('/').slice(-2, -1)[0] // Extract category from path
-  return {
-    ...remedy,
-    slug: remedy.slug || path.split('/').pop()?.replace('.ts', ''),
-    category: remedy.category || category
+export const allRemedies: Remedy[] = [
+  {
+    slug: 'anxiety',
+    title: 'Anxiety',
+    description: 'Natural remedies for anxiety and stress relief.',
+    category: 'Mind',
+    plants: ['ashwagandha', 'chamomile', 'lavender', 'passionflower'],
+    approach: 'Calming herbs and adaptogens'
+  },
+  {
+    slug: 'inflammation',
+    title: 'Inflammation',
+    description: 'Anti-inflammatory remedies for chronic inflammation.',
+    category: 'Body',
+    plants: ['turmeric', 'ginger', 'boswellia', 'white-willow'],
+    approach: 'Anti-inflammatory herbs and spices'
   }
-})
+]
 
-// Categories data
 export const categories: Category[] = [
   {
-    slug: 'mental-health',
-    title: 'Mental Health',
-    description: 'Anxiety, depression, stress, focus, and cognitive support',
-    icon: '🧠',
-    color: 'bg-blue-50 border-blue-200 text-blue-800',
-    keywords: ['anxiety', 'depression', 'stress', 'focus', 'adhd', 'mood', 'sleep']
+    slug: 'mind',
+    title: 'Mind',
+    description: 'Mental health and cognitive support',
+    keywords: ['anxiety', 'depression', 'focus', 'sleep', 'stress']
   },
   {
-    slug: 'skin-hair',
-    title: 'Skin & Hair',
-    description: 'Acne, eczema, hair loss, aging, and skin health',
-    icon: '✨',
-    color: 'bg-pink-50 border-pink-200 text-pink-800',
-    keywords: ['acne', 'eczema', 'hair loss', 'aging', 'skin', 'dermatitis']
+    slug: 'body',
+    title: 'Body',
+    description: 'Physical health and wellness',
+    keywords: ['pain', 'inflammation', 'energy', 'immunity', 'digestion']
   },
   {
-    slug: 'digestion',
-    title: 'Digestion',
-    description: 'Bloating, IBS, constipation, acid reflux, and gut health',
-    icon: '🌿',
-    color: 'bg-green-50 border-green-200 text-green-800',
-    keywords: ['bloating', 'ibs', 'constipation', 'acid reflux', 'digestion', 'gut']
-  },
-  {
-    slug: 'immunity',
-    title: 'Immunity',
-    description: 'Cold, flu, infections, and immune system support',
-    icon: '🛡️',
-    color: 'bg-purple-50 border-purple-200 text-purple-800',
-    keywords: ['cold', 'flu', 'infection', 'immune', 'immunity', 'virus']
-  },
-  {
-    slug: 'hormones',
-    title: 'Hormones',
-    description: 'PMS, menopause, thyroid, libido, and hormonal balance',
-    icon: '⚖️',
-    color: 'bg-red-50 border-red-200 text-red-800',
-    keywords: ['pms', 'menopause', 'thyroid', 'libido', 'hormones', 'endocrine']
-  },
-  {
-    slug: 'pain-inflammation',
-    title: 'Pain & Inflammation',
-    description: 'Joint pain, headaches, muscle soreness, and inflammation',
-    icon: '🔥',
-    color: 'bg-orange-50 border-orange-200 text-orange-800',
-    keywords: ['pain', 'inflammation', 'joint', 'headache', 'muscle', 'arthritis']
-  },
-  {
-    slug: 'energy',
-    title: 'Energy & Fatigue',
-    description: 'Fatigue, burnout, low energy, and adrenal support',
-    icon: '⚡',
-    color: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-    keywords: ['fatigue', 'energy', 'burnout', 'adrenal', 'tired', 'exhaustion']
-  },
-  {
-    slug: 'detox',
-    title: 'Detox & Liver',
-    description: 'Liver support, detoxification, and cleansing',
-    icon: '🌱',
-    color: 'bg-emerald-50 border-emerald-200 text-emerald-800',
-    keywords: ['detox', 'liver', 'cleansing', 'toxins', 'purification']
+    slug: 'spirit',
+    title: 'Spirit',
+    description: 'Spiritual and emotional balance',
+    keywords: ['balance', 'harmony', 'wellness', 'vitality']
   }
 ]
 
 // Helper functions
-export function getPlantsByCategory(category: string): Plant[] {
-  return allPlants.filter(plant => 
-    plant.tags?.some(tag => 
-      categories.find(cat => cat.slug === category)?.keywords?.includes(tag)
-    )
-  )
-}
-
-export function getRemediesByCategory(category: string): Remedy[] {
-  return allRemedies.filter(remedy => remedy.category === category)
-}
-
 export function getPlantBySlug(slug: string): Plant | undefined {
   return allPlants.find(plant => plant.slug === slug)
 }
@@ -184,94 +131,74 @@ export function getRemedyBySlug(slug: string): Remedy | undefined {
   return allRemedies.find(remedy => remedy.slug === slug)
 }
 
+export function getPlantsByCategory(category: string): Plant[] {
+  return allPlants.filter(plant => plant.category?.toLowerCase() === category.toLowerCase())
+}
+
+export function getRemediesByCategory(category: string): Remedy[] {
+  return allRemedies.filter(remedy => remedy.category.toLowerCase() === category.toLowerCase())
+}
+
 export function searchPlants(query: string): Plant[] {
-  const searchTerm = query.toLowerCase()
+  const lowercaseQuery = query.toLowerCase()
   return allPlants.filter(plant => 
-    plant.title.toLowerCase().includes(searchTerm) ||
-    plant.latinName.toLowerCase().includes(searchTerm) ||
-    plant.uses.some(use => use.toLowerCase().includes(searchTerm)) ||
-    plant.tags?.some(tag => tag.toLowerCase().includes(searchTerm))
+    plant.title.toLowerCase().includes(lowercaseQuery) ||
+    plant.latinName.toLowerCase().includes(lowercaseQuery) ||
+    plant.description.toLowerCase().includes(lowercaseQuery) ||
+    plant.uses.some(use => use.toLowerCase().includes(lowercaseQuery))
   )
 }
 
 export function searchRemedies(query: string): Remedy[] {
-  const searchTerm = query.toLowerCase()
+  const lowercaseQuery = query.toLowerCase()
   return allRemedies.filter(remedy => 
-    remedy.title.toLowerCase().includes(searchTerm) ||
-    remedy.description.toLowerCase().includes(searchTerm) ||
-    remedy.symptoms?.some(symptom => symptom.toLowerCase().includes(searchTerm)) ||
-    remedy.plants.some(plant => plant.toLowerCase().includes(searchTerm))
+    remedy.title.toLowerCase().includes(lowercaseQuery) ||
+    remedy.description.toLowerCase().includes(lowercaseQuery) ||
+    remedy.plants.some(plant => plant.toLowerCase().includes(lowercaseQuery))
   )
 }
 
-export function getRelatedPlants(plantSlug: string): Plant[] {
-  const plant = getPlantBySlug(plantSlug)
-  if (!plant?.relatedPlants) return []
+export function getPlantsForRemedy(remedyTitle: string): Plant[] {
+  const remedy = allRemedies.find(r => r.title === remedyTitle)
+  if (!remedy) return []
   
-  return plant.relatedPlants
-    .map(slug => getPlantBySlug(slug))
-    .filter(Boolean) as Plant[]
+  return allPlants.filter(plant => 
+    remedy.plants.includes(plant.title)
+  )
 }
 
-export function getRelatedRemedies(plantSlug: string): Remedy[] {
-  const plant = getPlantBySlug(plantSlug)
-  if (!plant?.relatedRemedies) return []
-  
-  return plant.relatedRemedies
-    .map(slug => getRemedyBySlug(slug))
-    .filter(Boolean) as Remedy[]
+export function getRemediesForPlant(plantName: string): Remedy[] {
+  return allRemedies.filter(remedy =>
+    remedy.plants.includes(plantName)
+  )
 }
 
-// Generate sitemap data
 export function generateSitemapData() {
-  const plants = allPlants.map(plant => ({
+  const plantUrls = allPlants.map(plant => ({
     url: `/plants/${plant.slug}`,
-    lastModified: plant.lastUpdated || new Date().toISOString(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8
+    lastModified: plant.lastUpdated || new Date().toISOString()
   }))
-
-  const remedies = allRemedies.map(remedy => ({
+  
+  const remedyUrls = allRemedies.map(remedy => ({
     url: `/remedies/${remedy.slug}`,
-    lastModified: remedy.lastUpdated || new Date().toISOString(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7
+    lastModified: remedy.lastUpdated || new Date().toISOString()
   }))
-
+  
   const categoryUrls = categories.map(category => ({
-    url: `/category/${category.slug}`,
-    lastModified: new Date().toISOString(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.6
+    url: `/remedies/${category.slug}`,
+    lastModified: new Date().toISOString()
   }))
-
-  return [...plants, ...remedies, ...categoryUrls]
+  
+  return [...plantUrls, ...remedyUrls, ...categoryUrls]
 }
 
-// Export everything
-export { categories as allCategories }
-
-// AI-specific exports for API routes
+// Export functions for AI
 export function loadAllPlantsForAI() {
-  return allPlants.map(plant => ({
-    title: plant.title,
-    latinName: plant.latinName,
-    description: plant.description,
-    uses: plant.uses,
-    tags: plant.tags,
-    slug: plant.slug
-  }))
+  return allPlants
 }
 
 export function loadAllRemediesForAI() {
-  return allRemedies.map(remedy => ({
-    title: remedy.title,
-    description: remedy.description,
-    symptoms: remedy.symptoms,
-    plants: remedy.plants,
-    slug: remedy.slug,
-    category: remedy.category
-  }))
+  return allRemedies
 }
 
 export function loadPlantBySlug(slug: string) {
@@ -288,19 +215,4 @@ export function loadPlants() {
 
 export function loadRemedies() {
   return allRemedies
-}
-
-export function getPlantsForRemedy(conditionName: string): Plant[] {
-  const remedy = allRemedies.find(r => r.title === conditionName);
-  if (!remedy) return [];
-  
-  return allPlants.filter(plant => 
-    remedy.plants.includes(plant.title)
-  );
-}
-
-export function getRemediesForPlant(plantName: string): Remedy[] {
-  return allRemedies.filter(remedy => 
-    remedy.plants.includes(plantName)
-  );
 }

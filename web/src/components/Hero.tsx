@@ -74,7 +74,7 @@ export default function Hero() {
       if (
         remedy.title.toLowerCase().includes(lowercaseTerm) ||
         remedy.description.toLowerCase().includes(lowercaseTerm) ||
-        remedy.herbs.some(herb => herb.toLowerCase().includes(lowercaseTerm))
+        remedy.plants.some(herb => herb.toLowerCase().includes(lowercaseTerm))
       ) {
         searchResults.push({
           type: 'remedy',

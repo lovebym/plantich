@@ -228,11 +228,11 @@ export default function RemedyRecommender() {
         // Find remedies for this symptom
         const relevantRemedies = allRemedies.filter(remedy => 
           remedy.title.toLowerCase().includes(symptomId) ||
-          remedy.herbs.some(herb => herb.toLowerCase().includes(symptomId))
+          remedy.plants.some(herb => herb.toLowerCase().includes(symptomId))
         )
 
         relevantRemedies.forEach(remedy => {
-          remedy.herbs.forEach(herbName => {
+          remedy.plants.forEach(herbName => {
             const plantSlug = herbName.toLowerCase().replace(/\s+/g, '-')
             
             // Skip if we already have this plant
