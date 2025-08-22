@@ -3,24 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { allPlants, allRemedies, getPlantsByCategory, getRemediesByCategory } from '@/content'
-
-interface Plant {
-  name: string
-  latin: string
-  slug: string
-  description: string
-  category?: 'Mind' | 'Body' | 'Spirit'
-  uses: string[]
-}
-
-interface Remedy {
-  condition: string
-  slug: string
-  description: string
-  herbs: string[]
-  category?: 'Mind' | 'Body' | 'Spirit'
-}
+import { allPlants, allRemedies, getPlantsByCategory, getRemediesByCategory, Plant, Remedy } from '@/lib/content-loader'
 
 function SearchContent() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -82,7 +65,7 @@ function SearchContent() {
         filteredRemedies = filteredRemedies.filter(remedy => 
           remedy.title.toLowerCase().includes(lowercaseTerm) ||
           remedy.description.toLowerCase().includes(lowercaseTerm) ||
-          remedy.herbs.some(herb => herb.toLowerCase().includes(lowercaseTerm))
+          remedy.plants.some(herb => herb.toLowerCase().includes(lowercaseTerm))
         )
       }
 
@@ -262,7 +245,7 @@ function SearchContent() {
                             </span>
                           )}
                           <span className="text-xs text-herbal">
-                            {remedy.herbs.length} related plants
+                            {remedy.plants.length} related plants
                           </span>
                         </div>
                       </Link>
