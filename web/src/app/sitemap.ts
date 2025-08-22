@@ -1,4 +1,4 @@
-import { allPlants, allRemedies } from '@/content'
+import { allPlants, allRemedies } from '@/lib/content-loader'
 
 export default async function sitemap() {
   const baseUrl = 'https://plantich.com'
