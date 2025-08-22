@@ -249,7 +249,7 @@ export default function RemedyRecommender() {
                 name: plant.title,
                 slug: plant.slug,
                 description: plant.description,
-                preparation: plant.preparation
+                preparation: plant.dosage
               },
               dosage: dosageInfo.dosage,
               frequency: dosageInfo.frequency,
@@ -379,7 +379,7 @@ export default function RemedyRecommender() {
                   
                   <div className="mt-4 p-3 bg-clay/20 rounded-lg">
                     <p className="text-xs text-ink font-medium mb-1">Preparation:</p>
-                    <p className="text-xs text-herbal">{rec.plant.preparation}</p>
+                    <p className="text-xs text-herbal">{rec.plant.dosage}</p>
                   </div>
                 </div>
               ))}

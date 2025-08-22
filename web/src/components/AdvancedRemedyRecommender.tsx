@@ -422,7 +422,7 @@ export default function AdvancedRemedyRecommender() {
           name: plant.title,
           slug: plant.slug,
           description: plant.description,
-          preparation: plant.preparation,
+          preparation: plant.dosage,
           category: plant.category || 'Body'
         },
         dosage: adjustedDosage,

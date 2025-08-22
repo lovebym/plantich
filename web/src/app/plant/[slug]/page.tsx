@@ -68,7 +68,7 @@ export default async function PlantPage({ params }: Props) {
     alternateName: plant.latinName,
     description: plant.description,
     category: plant.category,
-    preparation: plant.preparation,
+    preparation: plant.dosage,
     indication: plant.uses,
     url: `https://plantich.com/plant/${plant.slug}`,
     mainEntityOfPage: {
@@ -119,7 +119,7 @@ export default async function PlantPage({ params }: Props) {
             <h2 className="font-serif text-3xl text-ink mb-8 text-center">Preparation & Use</h2>
             <div className="apothecary-card p-8 text-center">
               <p className="text-ink font-sans leading-relaxed text-lg">
-                {plant.preparation}
+                {plant.dosage}
               </p>
             </div>
           </div>
@@ -168,12 +168,12 @@ export default async function PlantPage({ params }: Props) {
         )}
 
         {/* Research Links */}
-        {plant.sources && plant.sources.length > 0 && (
+        {plant.references && plant.references.length > 0 && (
           <section className="py-16 px-6 bg-sand">
             <div className="max-w-4xl mx-auto">
               <h2 className="font-serif text-3xl text-ink mb-8 text-center">Research & Sources</h2>
               <div className="space-y-4">
-                {plant.sources.map((source, index) => (
+                {plant.references.map((source, index) => (
                   <a
                     key={index}
                     href={source.url}
