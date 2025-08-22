@@ -31,6 +31,12 @@ export default function Header() {
               Recommendations
             </Link>
             <Link
+              href="/ai-search"
+              className="text-ink hover:text-herbal px-3 py-2 text-sm tracking-wider uppercase transition-colors font-sans"
+            >
+              AI Search
+            </Link>
+            <Link
               href="/plants"
               className="text-ink hover:text-herbal px-3 py-2 text-sm tracking-wider uppercase transition-colors font-sans"
             >

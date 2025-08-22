@@ -1,0 +1,78 @@
+# Plantich Content Generation Rules
+
+## Project Overview
+Plantich is a Nordic herbal medicine platform with clean, evidence-aware content. All content is educational only, no medical claims.
+
+## Content Guidelines
+- **Tone**: Nordic apothecary meets Byredo - clean, warm, precise
+- **Language**: English only
+- **Safety**: Always include cautions, contraindications, "consult clinician"
+- **Evidence**: Reference reliable sources (Examine, MSKCC, NIH/ODS, PubMed)
+- **No medical claims**: Educational only, no treatment/cure promises
+
+## File Structure
+- Plants: `src/content/plants/<slug>.ts`
+- Remedies: `src/content/remedies/<slug>.ts`
+- Use kebab-case for slugs and filenames
+- One default export per file
+
+## Content Types
+
+### Plants
+Follow the Plant interface with exact field names:
+- slug, commonName, latinName, deck
+- tags, outcomes, partsUsed, actions, forms
+- howItMayWork, howToUse (with typicalRanges, timing, withFood, preparationTips)
+- combineThoughtfully, cautions, interactions, pregnancyLactation
+- whenToAvoid, ritualIdea, relatedPlants, relatedRemedies
+- references, seo (title ≤60 chars, description 150-160 chars)
+
+### Remedies
+Follow the Remedy interface with exact field names:
+- slug, name, deck, overview
+- quickPaths, corePlants, rituals, lifestyle
+- safetyNotes, whenToSeekCare, faq
+- relatedRemedies, relatedPlants, references, seo
+
+## Quality Checklist
+- [ ] Filename matches slug (kebab-case)
+- [ ] SEO title ≤60 characters, description 150-160 characters
+- [ ] All text in English
+- [ ] Cautions and safety notes present and clear
+- [ ] 1-4 references with reliable URLs
+- [ ] Related fields point to existing/planned slugs
+- [ ] No medical promises, "educational only"
+
+## Safety Requirements
+- Always mention pregnancy/lactation cautions
+- Include medication interaction warnings
+- Add "consult your clinician" disclaimers
+- List contraindications clearly
+- Include "when to seek care" guidance
+
+## Writing Style
+- Plain English, short paragraphs
+- Bullet points for scannability
+- Evidence-aware language
+- Conservative safety stance
+- Warm, approachable tone
+
+## References (Use These Sources)
+- Examine.com
+- MSKCC About Herbs
+- Natural Medicines Database
+- NIH Office of Dietary Supplements
+- PubMed systematic reviews
+- WHO monographs
+- Cochrane plain-language summaries
+
+## Commit Style
+- `content(plants): add [plant-name]`
+- `content(remedies): add [condition-name]`
+- Batch commits for 3-5 files
+
+## Important Legal Notes
+- NEVER claim Plantich treats, cures, or diagnoses
+- ALWAYS encourage consulting healthcare providers
+- Use "educational only" and "consult your clinician"
+- No medical outcome guarantees

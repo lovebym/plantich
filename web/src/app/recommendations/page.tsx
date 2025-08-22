@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import RemedyRecommender from '@/components/RemedyRecommender'
+import AdvancedRemedyRecommender from '@/components/AdvancedRemedyRecommender'
 
 export const metadata: Metadata = {
   title: 'Personalized Herbal Recommendations - Plantich',
@@ -44,7 +44,7 @@ export default function RecommendationsPage() {
       </section>
 
       {/* Main Recommender */}
-      <RemedyRecommender />
+      <AdvancedRemedyRecommender />
 
       {/* Additional Information */}
       <section className="py-16 px-6 bg-clay">
