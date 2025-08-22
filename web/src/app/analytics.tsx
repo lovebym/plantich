@@ -5,13 +5,13 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 declare global {
   interface Window {
-    dataLayer: Record<string, any>[];
-    clarity: (...args: any[]) => void;
-    gtag: (...args: any[]) => void;
+    dataLayer: Record<string, unknown>[];
+    clarity: (...args: unknown[]) => void;
+    gtag: (...args: unknown[]) => void;
   }
 }
 
-export function sendGAEvent(action: string, params?: Record<string, any>) {
+export function sendGAEvent(action: string, params?: Record<string, unknown>) {
   if (typeof window === "undefined") return;
   window.dataLayer = window.dataLayer || [];
   window.gtag?.("event", action, params);

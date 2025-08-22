@@ -5,12 +5,12 @@
 
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
+    gtag: (...args: unknown[]) => void;
+    dataLayer: unknown[];
   }
 }
 
-export function sendGAEvent(action: string, params?: Record<string, any>) {
+export function sendGAEvent(action: string, params?: Record<string, unknown>) {
   if (typeof window === "undefined") return;
   
   window.gtag?.("event", action, {

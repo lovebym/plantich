@@ -1,0 +1,11 @@
+Botanical Illustration Prompt for ginger
+
+Botanical illustration of Ginger (Zingiber officinale), inspired by Nordic flora style but with a modern minimal twist. Clean white background. Fine ink linework combined with soft watercolor textures. Scientific accuracy, high detail, elegant and exclusive like a vintage botanical plate. Soft earthy tones, harmonious composition, timeless and refined. Focus on seeds and flowers, gentle beige and soft green. Special focus on: rhizome, pale yellow flowers, aromatic compounds.
+
+---
+Instructions:
+1. Use this prompt in your AI image generator (DALL-E, Midjourney, etc.)
+2. Generate a high-resolution PNG image
+3. Convert to SVG using Vectorizer.AI or Adobe Illustrator
+4. Save as: /public/assets/plants/ginger.svg
+5. Ensure white background and clean vector lines
