@@ -137,7 +137,7 @@ export function generateCategorySEO(category: Record<string, unknown>): Metadata
   }
 }
 
-export function generateStructuredData(plant: any) {
+export function generateStructuredData(plant: Record<string, unknown>) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Drug',
@@ -157,7 +157,7 @@ export function generateStructuredData(plant: any) {
   }
 }
 
-export function generateRemedyStructuredData(remedy: any) {
+export function generateRemedyStructuredData(remedy: Record<string, unknown>) {
   return {
     '@context': 'https://schema.org',
     '@type': 'MedicalWebPage',
