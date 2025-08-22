@@ -23,7 +23,11 @@ export async function GET() {
         lastUpdated: r.lastUpdated,
         url: `/remedies/${r.slug}`
       }))
-    ].sort((a, b) => (a.lastUpdated < b.lastUpdated ? 1 : -1)).slice(0, 100)
+    ].sort((a, b) => {
+      const aDate = a.lastUpdated || new Date(0).toISOString()
+      const bDate = b.lastUpdated || new Date(0).toISOString()
+      return aDate < bDate ? 1 : -1
+    }).slice(0, 100)
 
     const response = {
       license: "CC BY 4.0",
