@@ -190,7 +190,7 @@ export async function POST() {
 
       } catch (error) {
         console.error(`Error generating ${plantName}:`, error);
-        errors.push({ plantName, error: error.message });
+        errors.push({ plantName, error: error instanceof Error ? error.message : 'Unknown error' });
       }
     }
 

@@ -5,8 +5,13 @@ export default function GeneratePlantsPage() {
   const [plants, setPlants] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [batchLoading, setBatchLoading] = useState(false);
-  const [selectedPlants, setSelectedPlants] = useState<string[]>([]);
-  const [results, setResults] = useState<any>(null);
+  const [results, setResults] = useState<{
+    summary: {
+      created: number;
+      alreadyExists: number;
+      errors: number;
+    };
+  } | null>(null);
 
   useEffect(() => {
     fetchPlants();
