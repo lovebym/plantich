@@ -298,3 +298,9 @@ export function getPlantsForRemedy(conditionName: string): Plant[] {
     remedy.plants.includes(plant.title)
   );
 }
+
+export function getRemediesForPlant(plantName: string): Remedy[] {
+  return allRemedies.filter(remedy => 
+    remedy.plants.includes(plantName)
+  );
+}
