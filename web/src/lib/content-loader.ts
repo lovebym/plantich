@@ -237,15 +237,54 @@ export function generateSitemapData() {
     priority: 0.7
   }))
 
-  const categories = categories.map(category => ({
+  const categoryUrls = categories.map(category => ({
     url: `/category/${category.slug}`,
     lastModified: new Date().toISOString(),
     changeFrequency: 'weekly' as const,
     priority: 0.6
   }))
 
-  return [...plants, ...remedies, ...categories]
+  return [...plants, ...remedies, ...categoryUrls]
 }
 
 // Export everything
 export { categories as allCategories }
+
+// AI-specific exports for API routes
+export function loadAllPlantsForAI() {
+  return allPlants.map(plant => ({
+    title: plant.title,
+    latinName: plant.latinName,
+    description: plant.description,
+    uses: plant.uses,
+    tags: plant.tags,
+    slug: plant.slug
+  }))
+}
+
+export function loadAllRemediesForAI() {
+  return allRemedies.map(remedy => ({
+    title: remedy.title,
+    description: remedy.description,
+    symptoms: remedy.symptoms,
+    plants: remedy.plants,
+    slug: remedy.slug,
+    category: remedy.category
+  }))
+}
+
+export function loadPlantBySlug(slug: string) {
+  return getPlantBySlug(slug)
+}
+
+export function loadRemedyBySlug(slug: string) {
+  return getRemedyBySlug(slug)
+}
+
+export function loadPlants() {
+  return allPlants
+}
+
+export function loadRemedies() {
+  return allRemedies
+}
