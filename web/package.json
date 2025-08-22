@@ -26,8 +26,7 @@
     "export": "next build && next export",
     "test": "echo \"No tests specified\" && exit 0",
     "prepush": "npm run lint && npm run typecheck && npm run build",
-    "vercel-build": "npm run build",
-    "prepare": "husky install"
+    "vercel-build": "npm run build"
   },
   "dependencies": {
     "@sanity/client": "^7.9.0",
@@ -52,7 +51,7 @@
     "husky": "^8.0.0"
   },
   "engines": {
-    "node": "18.x",
+    "node": "22.x",
     "npm": "10.x"
   },
   "packageManager": "npm@10.x"
