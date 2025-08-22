@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { getPlantBySlug, getRemediesForPlant } from '@/content'
+import { getPlantBySlug, getRemediesForPlant } from '@/lib/content-loader'
 
 interface Props {
   params: Promise<{ slug: string }>
