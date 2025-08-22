@@ -432,7 +432,7 @@ export default function AdvancedRemedyRecommender() {
         interactions: dosageInfo.interactions,
         contraindications,
         notes: generatePersonalizedNotes(plant, userProfile, selectedSymptoms),
-        scientificEvidence: dosageInfo.scientificEvidence,
+        scientificEvidence: dosageInfo.scientificEvidence as 'strong' | 'moderate' | 'limited',
         userRating: dosageInfo.userRating
       })
     })

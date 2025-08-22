@@ -1,5 +1,10 @@
 // Central index for all content with utility functions
-import { Plant, Remedy, PlantRemedyMap, RemedyPlantMap } from './types';
+// This file is deprecated - use content-loader.ts instead
+// All imports and exports are commented out to avoid conflicts
+
+/*
+// import { Plant as ContentPlant, Remedy, PlantRemedyMap, RemedyPlantMap } from './types';
+// import { Plant } from '@/lib/content-loader';
 
 // Import all plants
 import alfalfa from './plants/alfalfa';
@@ -217,7 +222,7 @@ import weaknessRemedy from './remedies/weakness';
 import weightLossSupportRemedy from './remedies/weight-loss-support';
 
 // Exported collections
-export const allPlants: Plant[] = [
+export const allPlants: ContentPlant[] = [
   alfalfa,
   aloeVera,
   arnica,
@@ -508,3 +513,4 @@ export function generateRemedyPlantMap(): RemedyPlantMap {
   
   return map;
 }
+*/

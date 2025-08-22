@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { getRemedyBySlug, getPlantsForRemedy } from '@/content'
+import { getRemedyBySlug, getPlantsForRemedy } from '@/lib/content-loader'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -18,18 +18,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `Natural Remedies for ${remedy.condition}`,
+    title: `Natural Remedies for ${remedy.title}`,
     description: remedy.description,
     keywords: [
-      remedy.condition,
+      remedy.title,
       'natural remedies',
       'herbal treatment',
       'holistic healing',
       'plant medicine',
-      ...remedy.herbs
+      ...remedy.plants
     ],
     openGraph: {
-      title: `Natural Remedies for ${remedy.condition}`,
+      title: `Natural Remedies for ${remedy.title}`,
       description: remedy.description,
       type: 'article',
       images: [
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: `Natural Remedies for ${remedy.condition}`,
       description: remedy.description,
-      images: [`/api/og?title=${encodeURIComponent(`Natural Remedies for ${remedy.condition}`)}&subtitle=${encodeURIComponent('Herbal Solutions')}`],
+      images: [`/api/og?title=${encodeURIComponent(`Natural Remedies for ${remedy.title}`)}&subtitle=${encodeURIComponent('Herbal Solutions')}`],
     },
   }
 }
@@ -58,13 +58,13 @@ export default async function ConditionPage({ params }: Props) {
     notFound()
   }
 
-  const relatedPlants = getPlantsForRemedy(remedy.condition)
+  const relatedPlants = getPlantsForRemedy(remedy.title)
 
   // JSON-LD structured data
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'MedicalWebPage',
-    name: `Natural Remedies for ${remedy.condition}`,
+    name: `Natural Remedies for ${remedy.title}`,
     description: remedy.description,
     category: remedy.category,
     url: `https://plantich.com/condition/${remedy.slug}`,
@@ -81,7 +81,7 @@ export default async function ConditionPage({ params }: Props) {
     dateModified: new Date().toISOString(),
     about: {
       '@type': 'MedicalCondition',
-      name: remedy.condition,
+      name: remedy.title,
     },
     treatment: {
       '@type': 'MedicalTherapy',
@@ -101,7 +101,7 @@ export default async function ConditionPage({ params }: Props) {
         {/* Hero Section */}
         <section className="bg-sand py-16 px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="font-serif text-4xl text-ink mb-4">{remedy.condition}</h1>
+            <h1 className="font-serif text-4xl text-ink mb-4">{remedy.title}</h1>
             {remedy.category && (
               <span className="inline-block px-3 py-1 text-sm bg-herbal/10 text-herbal rounded-full mb-6">
                 {remedy.category}
@@ -138,14 +138,14 @@ export default async function ConditionPage({ params }: Props) {
                     className="apothecary-card p-6 hover:shadow-soft transition-shadow"
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-serif text-xl text-ink">{plant.name}</h3>
+                      <h3 className="font-serif text-xl text-ink">{plant.title}</h3>
                       {plant.category && (
                         <span className="text-xs px-2 py-1 bg-herbal/10 text-herbal rounded-full">
                           {plant.category}
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-herbal italic mb-3">{plant.latin}</p>
+                    <p className="text-sm text-herbal italic mb-3">{plant.latinName}</p>
                     <p className="text-sm text-ink font-sans line-clamp-3 mb-4">
                       {plant.description}
                     </p>

@@ -151,7 +151,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               >
                 <div className="mb-4">
                   <h3 className="text-xl font-serif text-ink mb-2">
-                    {remedy.name}
+                    {remedy.title}
                   </h3>
                   <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
                     {remedy.description}

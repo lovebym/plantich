@@ -11,12 +11,12 @@ export async function GET() {
       total: remedies.length,
       items: remedies.map(remedy => ({
         slug: remedy.slug,
-        name: remedy.name,
+        title: remedy.title,
         description: remedy.description,
         symptoms: remedy.symptoms,
         plants: remedy.plants.slice(0, 5), // Top 5 plants
         approach: remedy.approach,
-        url: remedy.url
+        url: `/remedies/${remedy.slug}`
       }))
     }
 

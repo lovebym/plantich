@@ -288,3 +288,12 @@ export function loadPlants() {
 export function loadRemedies() {
   return allRemedies
 }
+
+export function getPlantsForRemedy(conditionName: string): Plant[] {
+  const remedy = allRemedies.find(r => r.title === conditionName);
+  if (!remedy) return [];
+  
+  return allPlants.filter(plant => 
+    remedy.plants.includes(plant.title)
+  );
+}

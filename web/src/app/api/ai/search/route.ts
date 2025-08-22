@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
         results.push({
           type: 'remedy',
           slug: remedy.slug,
-          name: remedy.name,
+          title: remedy.title,
           category: remedy.category || 'Body',
           description: remedy.description,
           why: `Matches your search for "${condition}"`,
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
         results.push({
           type: 'plant',
           slug: plant.slug,
-          name: plant.commonName,
+          title: plant.title,
           category: plant.category || 'Body',
           description: plant.description,
           why: `Directly matches your search for "${plantSlug}"`,
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
             results.push({
               type: 'plant',
               slug: plant.slug,
-              name: plant.commonName,
+              title: plant.title,
               category: plant.category || 'Body',
               description: plant.description,
               why: `Commonly used for ${condition}`,
@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
             results.push({
               type: 'plant',
               slug: plant.slug,
-              name: plant.name,
+              title: plant.title,
               category: category,
               description: plant.description,
               why: `Top recommendation for ${category} concerns`,
@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
             results.push({
               type: 'remedy',
               slug: remedy.slug,
-              name: remedy.condition,
+              title: remedy.title,
               category: category,
               description: remedy.description,
               why: `Comprehensive guide for ${category} health`,

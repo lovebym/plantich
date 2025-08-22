@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { searchPlants, searchRemedies } from '@/content'
+import { searchPlants, searchRemedies } from '@/lib/content-loader'
 
 export async function GET(request: NextRequest) {
   try {

@@ -67,7 +67,16 @@ allRemedies.forEach(remedy => {
 })
 
 // Helper function to get remedies by category
-export function getRemediesByCategory(category: string) {
+export function getRemediesByCategory(category: string): Array<{
+  slug: string;
+  title?: string;
+  name?: string;
+  condition?: string;
+  category: string;
+  description: string;
+  herbs?: string[];
+  approach?: string;
+}> {
   return categorizedRemedies[category as keyof typeof categorizedRemedies] || []
 }
 
