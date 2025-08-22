@@ -181,7 +181,7 @@ export default async function PlantPage({ params }: Props) {
                     rel="noopener noreferrer"
                     className="block apothecary-card p-6 hover:shadow-soft transition-shadow"
                   >
-                    <h3 className="font-serif text-lg text-ink mb-2">{source.name}</h3>
+                    <h3 className="font-serif text-lg text-ink mb-2">{source.title}</h3>
                     <p className="text-sm text-herbal font-sans">External research link →</p>
                   </a>
                 ))}
