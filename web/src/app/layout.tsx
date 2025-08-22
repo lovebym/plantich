@@ -19,10 +19,10 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: {
-    default: "Plantich - The Sacred Alchemy of Plants",
+    default: "Plantich - AI-Powered Botanical Wisdom",
     template: "%s | Plantich"
   },
-  description: "A Nordic luxury herbal apothecary platform. Discover the sacred alchemy of plants through curated knowledge and premium botanical wisdom. Explore natural remedies, medicinal herbs, and holistic wellness.",
+  description: "AI-powered Nordic luxury herbal apothecary platform. Discover the sacred alchemy of plants through curated knowledge, premium botanical wisdom, and intelligent recommendations for holistic wellness.",
   keywords: [
     "herbal medicine",
     "natural remedies",

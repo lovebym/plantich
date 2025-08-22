@@ -10,8 +10,8 @@ export default function Footer() {
               <span className="font-serif text-2xl text-ink">Plantich</span>
             </div>
             <p className="text-herbal max-w-md leading-relaxed font-sans">
-              A Nordic luxury herbal apothecary platform. Curated knowledge of botanical wisdom,
-              presented with the purity and elegance of ancient traditions.
+              AI-powered Nordic luxury herbal apothecary platform. Discover the sacred alchemy of plants through curated knowledge, 
+              premium botanical wisdom, and intelligent recommendations for holistic wellness.
             </p>
           </div>
 
@@ -64,7 +64,7 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-shadow/30">
           <p className="text-center text-sm text-herbal font-sans">
-            © 2024 Plantich. The Sacred Alchemy of Plants.
+            © 2025 Plantich. The Sacred Alchemy of Plants. AI-powered botanical wisdom.
           </p>
         </div>
       </div>
