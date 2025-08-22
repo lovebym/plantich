@@ -1,23 +1,73 @@
-import { notFound } from 'next/navigation'
+import { getPlantBySlug, getRelatedPlants } from '@/lib/sanity';
+import PlantHeader from '../_components/PlantHeader';
+import PlantBenefits from '../_components/PlantBenefits';
+import PlantPreparation from '../_components/PlantPreparation';
+import PlantSafety from '../_components/PlantSafety';
+import PlantPairs from '../_components/PlantPairs';
+import PlantReferences from '../_components/PlantReferences';
+import PlantRelated from '../_components/PlantRelated';
+import PlantFAQJsonLd from '../_components/PlantFAQJsonLd';
+import { TaxonJsonLd, SupplementJsonLd } from '../_components/PlantJsonLd';
 
-interface Props {
-  params: Promise<{ slug: string }>
+type Props = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  const plant = await getPlantBySlug(slug);
+  const title = plant?.seoTitle || `${plant?.commonName} (${plant?.latinName}) – Natural Uses & Preparation | Plantich`;
+  const description = plant?.seoDescription || plant?.essence || '';
+  return { 
+    title, 
+    description, 
+    alternates: { canonical: `https://www.plantich.com/plants/${slug}` } 
+  };
 }
 
-export default async function PlantPage({ params }: Props) {
-  const { slug } = await params
+export default async function Page({ params }: Props) {
+  const { slug } = await params;
+  const plant = await getPlantBySlug(slug);
+  if (!plant) return null;
+
+  const related = await getRelatedPlants(slug);
 
   return (
-    <div className="bg-[color:var(--pl-bone)] min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center">
-          <div className="text-6xl mb-4">🌱</div>
-          <h2 className="text-2xl font-semibold text-[color:var(--pl-charcoal)] mb-2">Plant not found</h2>
-          <p className="text-[color:var(--pl-olive)]">
-            This plant will appear here once it&apos;s added to your Sanity CMS.
-          </p>
-        </div>
-      </div>
-    </div>
-  )
+    <main className="mx-auto max-w-4xl px-6 py-12">
+      {/* JSON-LD */}
+      <TaxonJsonLd plant={plant} />
+      <SupplementJsonLd plant={plant} />
+      <PlantFAQJsonLd plant={plant} />
+
+      <PlantHeader plant={plant} />
+      <PlantBenefits plant={plant} />
+
+      <section id="preparation" className="mt-10">
+        <h2 className="text-2xl font-semibold">Preparation &amp; Use</h2>
+        <PlantPreparation preparation={plant.preparation} />
+      </section>
+
+      {!!plant.traditionalUses?.length && (
+        <section id="traditional" className="mt-14">
+          <h2 className="text-2xl font-semibold">Traditional Uses</h2>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+            {plant.traditionalUses.map(c => (
+              <li key={c._id}>
+                <a className="block rounded-xl bg-[#ECE5DC] p-4 hover:opacity-90"
+                   href={`/conditions/${c.slug.current}`}>
+                  {c.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <PlantSafety items={plant.safety} />
+
+      <PlantPairs pairs={plant.pairs} />
+
+      <PlantReferences items={plant.research} />
+
+      <PlantRelated items={related} />
+    </main>
+  );
 }

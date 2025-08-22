@@ -129,13 +129,14 @@ export default function Hero() {
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         {/* Elegant headline */}
         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-ink leading-tight tracking-tight mb-8">
-          The Sacred Alchemy
-          <span className="block text-herbal">of Plants</span>
+          Discover the Sacred
+          <span className="block text-herbal">Alchemy of Plants</span>
         </h1>
 
         {/* Subtitle */}
-        <p className="text-lg md:text-xl text-herbal max-w-2xl mx-auto mb-12 leading-relaxed font-sans">
-          Ancient wisdom, modern clarity
+        <p className="text-lg md:text-xl text-herbal max-w-3xl mx-auto mb-12 leading-relaxed font-sans">
+          Explore herbal remedies, medicinal mushrooms, and adaptogenic plants for holistic health. 
+          Plantich guides you with curated wisdom and natural solutions for body, mind, and spirit.
         </p>
 
         {/* Search Section */}
@@ -234,7 +235,7 @@ export default function Hero() {
           href="/conditions"
           className="inline-block px-8 py-4 bg-herbal text-white hover:bg-ink transition-colors duration-300 text-sm tracking-wider uppercase font-sans rounded-md shadow-soft"
         >
-          Explore All Conditions
+          Explore the Apothecary
         </Link>
       </div>
     </section>
