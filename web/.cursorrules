@@ -1,66 +1,59 @@
-# Plantich Project Rules
+# Plantich – Cursor Project Rules
 
-## Context & Stack
-- Framework: Next.js (app/), TypeScript, pnpm, Tailwind, Sanity
-- Goal: fast dev-loop, minimize AI errors, consistent structure, SEO-friendly
-
-## Package & Tooling
-- Use pnpm package manager. Remove package-lock.json if it exists
-- Node: use .nvmrc (e.g. 20.14) and nvm use
-- Scripts should be: pnpm dev, pnpm build, pnpm typecheck, pnpm lint, pnpm test
+## Project Overview
+This repository is **Plantich** - The Sacred Alchemy of Plants. A Nordic luxury herbal apothecary platform built with Next.js (App Router), TypeScript, and Tailwind CSS.
 
 ## File Structure
-- Stick to app/, don't mix with pages/
-- Alias @/* points to src/*. Use consistently in imports
+- `src/app/` - Next.js App Router pages and layouts
+- `src/components/` - Reusable React components
+- `src/lib/` - Utility functions, types, and data loaders
+- `src/styles/` - Global styles and Tailwind configuration
+- `content/` - Static content files (plants and remedies)
+- `sanity/` - Sanity CMS schemas (for future use)
 
-## TypeScript
-- Compiler should use (minimum requirements):
-  - strict: true
-  - noUncheckedIndexedAccess: true
-  - skipLibCheck: true
-  - moduleResolution: "Bundler"
-  - baseUrl: "."
-  - paths: { "@/*": ["./src/*"] }
+## Content Structure
+- One file per entity under `/content/plants` and `/content/remedies`
+- Export default objects matching `Plant` or `Remedy` types from `src/lib/types.ts`
+- Use kebab-case slugs (e.g., `ashwagandha`, `anxiety`)
+- Include research links and safety information
 
-## Sanity
-- Single client: src/lib/sanity/client.ts
-- Environment variables: SANITY_PROJECT_ID, SANITY_DATASET, SANITY_API_VERSION, SANITY_TOKEN (if write)
-- Cache readings with Next cache where appropriate
+## Pages
+- `/plants/[slug]` and `/remedies/[slug]` read from local content loaders
+- Static generation with ISR (revalidate: 86400)
+- SEO metadata generated via `src/lib/seo.ts`
 
-## Tailwind
-- content should cover: ./app/**/*.{ts,tsx}, ./components/**/*.{ts,tsx}, ./src/**/*.{ts,tsx}
-- Don't use Tailwind classes in dynamic strings (to avoid missing purge)
+## Styling
+- Use Tailwind CSS utility classes
+- shadcn/ui components when available
+- Nordic minimalism × botanical apothecary aesthetic
+- Keep design clean, premium, and botanical-inspired
 
-## Quality
-- ESLint + Prettier (formatOnSave)
-- Prefer Zod for schema/validation
-- Ask Cursor to write tests first for new logic (vitest/jest), run tests, fix errors in small steps
+## Code Quality
+- Strong TypeScript typing - no `any` types
+- ESLint and Prettier for code formatting
+- Husky pre-push hooks for quality checks
+- All text content in English first
 
-## Performance in Cursor
-- Keep AI context small: ignore build folders and node_modules
-- When suggestions become "off": Project → Reindex embeddings
-- Work in small tasks (one feature at a time)
-- Use "Fix" in diff view before new broad prompts
+## Performance
+- Static generation preferred
+- Minimal client-side JavaScript
+- Optimized images with next/image
+- No external API calls at runtime (build-time only)
 
-## Standard reset when things break
-```
-git add -A && git commit -m "checkpoint"
-rm -rf node_modules .next .turbo dist
-pnpm install
-pnpm dedupe
-pnpm typecheck
-pnpm build
-pnpm dev
-```
+## Content Guidelines
+- Scientific, warm, inspiring tone
+- Include research links for claims
+- Add safety notes and contraindications
+- Educational disclaimer on remedy pages
+- Affiliate links only via `AffiliateBlock` component
 
-## Rule for AI output
-- Before creating new file: list which files you plan to change
-- Every major change should come with reason, risk and rollback
-- Always generate minimum working version + short tests
+## Development Workflow
+- Use `npm run dev` for development
+- `npm run build` for production builds
+- `npm run typecheck` for TypeScript validation
+- `npm run lint` for code quality checks
 
-## Ignore (for AI context in Cursor)
-- Exclude: **/node_modules/**, .next/**, .turbo/**, dist/**, build/**
-
-## DoR / Definition of Ready for tasks
-- Has input: purpose, files, API keys (if needed), env keys, test cases
-- If anything is missing: ask only about what blocks
+## Deployment
+- Vercel deployment with GitHub integration
+- Environment variables in Vercel dashboard
+- Automatic builds on push to main branch
