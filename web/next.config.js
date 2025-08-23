@@ -32,13 +32,13 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/plants/:slug',
-        destination: '/plant/:slug',
+        source: '/plant/:slug',
+        destination: '/plants/:slug',
         permanent: true,
       },
       {
-        source: '/conditions/:slug',
-        destination: '/condition/:slug',
+        source: '/condition/:slug',
+        destination: '/remedies/:slug',
         permanent: true,
       },
     ]
